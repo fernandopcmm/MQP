@@ -1,0 +1,44 @@
+---
+title: "Aula 1 - Causalidade"
+author: "Fernando Lhamas"
+format: 
+  revealjs:
+    theme: "solarized"
+    slide-number: true
+    transition: "slide"
+    incremental: true
+    css: "style.css"
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r, warning=F, message=F}
+library(dplyr)
+1 + 1
+```
+## Tópico Avançado {class="study-slide"}
+
+- Este é um conteúdo importante para ser revisado posteriormente.
+- Ele possui um estilo visual diferente.
+
+## Ferramentas R e RStudio
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="figs/CRAN.png" alt="R Logo" width="300px" />
+  <img src="figs/rstudio.png" alt="RStudio Logo" width="300px" />
+</div>
+
+*Figura 1: R e R-Studio*
