@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="Aula01_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="style.css">
@@ -321,6 +386,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="Aula01_files/libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="Aula01_files/libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="Aula01_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -338,40 +406,538 @@ Fernando Lhamas
 </div>
 
 </section>
-<section id="quarto" class="slide level2">
-<h2>Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <a href="https://quarto.org/docs/presentations/" class="uri">https://quarto.org/docs/presentations/</a>.</p>
-</section>
-<section id="bullets" class="slide level2">
-<h2>Bullets</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes:</p>
-<ul>
-<li class="fragment">Content authored with markdown</li>
-<li class="fragment">Output from executable code</li>
-</ul>
-</section>
-<section id="code" class="slide level2">
-<h2>Code</h2>
-<p>When you click the <strong>Render</strong> button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
-</section>
-<section id="tópico-avançado" class="slide level2 study-slide">
-<h2>Tópico Avançado</h2>
-<ul>
-<li class="fragment">Este é um conteúdo importante para ser revisado posteriormente.</li>
-<li class="fragment">Ele possui um estilo visual diferente.</li>
-</ul>
-</section>
-<section id="ferramentas-r-e-rstudio" class="slide level2">
-<h2>Ferramentas R e RStudio</h2>
+<section id="dados-são-abundantes" class="slide level2">
+<h2>Dados são abundantes</h2>
 <div style="display: flex; justify-content: space-around;">
-<p><img src="figs/CRAN.png" alt="R Logo" width="300px"> <img src="figs/rstudio.png" alt="RStudio Logo" width="300px"></p>
+<p><img src="figs/fig1.png" alt="R Logo" width="1000px"></p>
 </div>
-<p><em>Figura 1: R e R-Studio</em></p>
+</section>
+<section id="big-data" class="slide level2">
+<h2>Big data</h2>
+<p>Brasil se associa ao maior centro científico do mundo, o CERN <a href="https://shorturl.at/13H75" class="uri">https://shorturl.at/13H75</a>.</p>
+<p>Quanto temos de dados no mundo? <a href="https://rivery.io/blog/big-data-statistics-how-much-data-is-there-in-the-world/" class="uri">https://rivery.io/blog/big-data-statistics-how-much-data-is-there-in-the-world/</a></p>
+<p>Neste novo milênio, no que diz respeito à geração e disponibilidade de dados, a humanidade tem presenciado e aprendido a conviver com a ocorrência simultânea de cinco características, ou dimensões: volume, velocidade, variedade, variabilidade e complexidade dos dados. Para este conjunto de características nomeamos como <strong>big data</strong>.</p>
+</section>
+<section class="slide level2">
+
+<p>Precisamos ser capazes de elaborar os mais diversos testes e modelos apropriados e robustos a cada situação e de acordo com o que o pesquisador e o tomador de decisão necessitam. E essas são as principais razões que têm levado organizações atuantes nos mais diversos setores a investirem na estruturação e no desenvolvimento de áreas multidisciplinares conhecidas por <strong>Business Analytics</strong>, que possuem o objetivo principal de analisar dados e gerar informações, permitindo a criação de uma capacidade preditiva em tempo real da organização frente ao mercado e aos competidores.No ambiente acadêmico, obviamente, não pode ser diferente.</p>
+</section>
+<section id="dados-contam-histórias" class="slide level2">
+<h2>Dados contam histórias</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig4.png" alt="R Logo" width="800px"></p>
+</div>
+<p><em>Fonte: Knaflic, Cole. Storytelling com dados. Rio de Janeiro: Alta books, 2017.</em></p>
+</section>
+<section class="slide level2">
+
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig3.png" alt="R Logo" width="700px"></p>
+</div>
+</section>
+<section id="dados-contam-histórias-e-são-bonitos" class="slide level2">
+<h2>Dados contam histórias e são bonitos</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig5.png" alt="R Logo" width="1000px"></p>
+</div>
+</section>
+<section id="dados-contam-histórias-e-são-bonitos-1" class="slide level2">
+<h2>Dados contam histórias e são bonitos</h2>
+<p>Livro <a href="https://tellingstorieswithdata.com/" class="uri">https://tellingstorieswithdata.com/</a></p>
+<p>Gráficos do livro storytelling with data <a href="https://github.com/adamribaudo/storytelling-with-data-ggplot" class="uri">https://github.com/adamribaudo/storytelling-with-data-ggplot</a></p>
+<p>Galeria de gráficos por tipo <a href="https://r-graph-gallery.com/" class="uri">https://r-graph-gallery.com/</a></p>
+<p>Gerador de paleta de cores <a href="https://coolors.co/" class="uri">https://coolors.co/</a></p>
+</section>
+<section id="dados-podem-ser-enganosos" class="slide level2">
+<h2>Dados podem ser enganosos</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">factor</span>(cyl), <span class="at">y=</span>mpg)) <span class="sc">+</span></span>
+<span id="cb1-2"><a href=""></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb1-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">30</span>)) <span class="sc">+</span>  <span class="co"># Manipulação do eixo Y para criar falsa percepção de grande diferença</span></span>
+<span id="cb1-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Gráfico Enganoso: Milhas por Galão por Número de Cilindros"</span>,</span>
+<span id="cb1-5"><a href=""></a>       <span class="at">x=</span><span class="st">"Número de Cilindros"</span>,</span>
+<span id="cb1-6"><a href=""></a>       <span class="at">y=</span><span class="st">"Milhas por Galão (mpg)"</span>) <span class="sc">+</span></span>
+<span id="cb1-7"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Aula01_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="correlação-espúria" class="slide level2">
+<h2>Correlação espúria</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig6.png" alt="R Logo" width="1000px"></p>
+</div>
+</section>
+<section id="correlação-x-causalidade" class="slide level2 study-slide">
+<h2>Correlação x Causalidade</h2>
+<ul>
+<li class="fragment">Correlação não é causalidade</li>
+<li class="fragment">Uma história de causa e efeito pode ser só uma anedota</li>
+<li class="fragment">Usar dados sofisticados não garante que o estudo é de causalidade</li>
+<li class="fragment">Usar regressão não garante que o estudo é de causalidade</li>
+</ul>
+<p>As mais interessantes hipóteses descrevem relações causais. Se conhecemos o que causa um efeito, podemos prever, influenciar, melhorar e entender o fenômeno estudado.</p>
+</section>
+<section id="correlação-x-causalidade-1" class="slide level2 study-slide">
+<h2>Correlação x Causalidade</h2>
+<p>Critérios para determinar causalidade</p>
+<ul>
+<li class="fragment">Causa e efeito estão conectados</li>
+<li class="fragment">A causa precede o efeito</li>
+<li class="fragment">Causa e efeito ocorrem juntas consistentemente. Ou seja, quando a causa está presente, esperamos ver o efeito e, quando a causa não está presente, esperamos ver menos o efeito, em grau similar ao que a causa influencia.</li>
+<li class="fragment">Explicações alternativas devem ser possíveis.</li>
+</ul>
+</section>
+<section id="o-que-precisamos-aprender" class="slide level2">
+<h2>O que precisamos aprender?</h2>
+<ul>
+<li class="fragment">Como modelamos matematicamente a partir dos dados?
+<ul>
+<li class="fragment">Probabilidade</li>
+</ul></li>
+<li class="fragment">Como sumarizamos e descrevemos os dados?
+<ul>
+<li class="fragment">Análise exploratória de dados</li>
+</ul></li>
+<li class="fragment">Como encontramos padrões entre variáveis
+<ul>
+<li class="fragment">Análise multivariada</li>
+<li class="fragment">Psicometria</li>
+<li class="fragment">Econometria</li>
+<li class="fragment">Machine Learning</li>
+</ul></li>
+</ul>
+</section>
+<section id="o-que-precisamos-aprender-1" class="slide level2">
+<h2>O que precisamos aprender?</h2>
+<ul>
+<li class="fragment">Como trabalhamos com causalidade?
+<ul>
+<li class="fragment">RCTs, teste AB e outros designs de estudo</li>
+<li class="fragment">Construir argumento contextualizado de causa e efeito</li>
+<li class="fragment">Regressões</li>
+</ul></li>
+<li class="fragment">Como comunicamos os resultados?
+<ul>
+<li class="fragment">Produtos de dados</li>
+<li class="fragment">Gráficos e tabelas informativos e que geram insights</li>
+<li class="fragment">Linguagem clara e concisa</li>
+</ul></li>
+</ul>
+</section>
+<section id="quais-ferramentas-utilizamos-na-prática" class="slide level2">
+<h2>Quais ferramentas utilizamos na prática?</h2>
+<ul>
+<li class="fragment">R (Análise de dados)</li>
+<li class="fragment">Quarto (produto de dados)</li>
+<li class="fragment">Github (versionamento de código)</li>
+<li class="fragment">Ferramentas de pré-registro</li>
+<li class="fragment">IA na maioria das fases de pesquisa</li>
+</ul>
+</section>
+<section id="ferramentas-de-análise-de-dados" class="slide level2">
+<h2>Ferramentas de análise de dados</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig2.png" alt="R Logo" width="1000px"></p>
+</div>
+</section>
+<section id="por-que-o-r" class="slide level2">
+<h2>Por que o R?</h2>
+<ul>
+<li class="fragment">Transparência</li>
+<li class="fragment">Replicabilidade</li>
+<li class="fragment">Mais utilizado em análise de dados</li>
+<li class="fragment">Preferencialmente adotado em pesquisas</li>
+<li class="fragment">Mais adequado para ciência aberta</li>
+</ul>
+</section>
+<section id="métodos-não-científicos" class="slide level2">
+<h2>Métodos não-científicos</h2>
+<ul>
+<li class="fragment">Pessoas podem aceitar algo como verdade baseado em <em>intuição</em> ou <em>crenças</em>.</li>
+<li class="fragment">Podemos melhorar nossa verdade com um número de pessoas que também acreditam e entram em <em>consenso</em>.</li>
+<li class="fragment">Outra fonte de conhecimento é por uma figura de <em>autoridade</em>.</li>
+<li class="fragment">Uma melhor fonte de conhecimento é a <em>observação causal</em>, mas ainda não parece suficiente, pois normalmente observamos mal.</li>
+</ul>
+</section>
+<section id="método-científico" class="slide level2">
+<h2>Método científico</h2>
+<p>O que precisamos para desenvolver conhecimento acurado é de observação sistemática, livre de viéses, combinado com aplicação lógica consistente. Em outras palavras, precisamos do método científico.</p>
+<ul>
+<li class="fragment">A hipótese precisa ser <em>empiricamente testável</em>.</li>
+<li class="fragment">O estudo e seus achados devem ter <em>replicabilidade</em>.</li>
+<li class="fragment">O estudo deve ter <em>objetividade</em>, pode ser repetido.</li>
+<li class="fragment">O estudo precisa ter <em>transparência</em>.</li>
+<li class="fragment">As hipóteses devem permitir <em>falseabilidade</em>.</li>
+<li class="fragment">As hipóteses devem ter <em>consistência lógica</em>.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<ul>
+<li class="fragment"><strong>Hipótese</strong> é uma declaração que descreve um padrão ou relação geral entre propriedade.</li>
+<li class="fragment"><strong>Teorias</strong> nas ciências sociais são as melhores explicações para um fenômeno em um dado momento, pois as hipóteses sobreviveram consistentemente ao escrutínio do método científico.</li>
+<li class="fragment">O conhecimento é adquirido através do <strong>ciclo empírico</strong>, com as fases: Observação, indução, dedução, experimentação e avaliação.</li>
+</ul>
+</section>
+<section id="critérios-do-método-científico" class="slide level2 study-slide">
+<h2>Critérios do método científico</h2>
+<p>Além de seguir o ciclo empírico, para que o estudo seja convincente, precisamos atender critérios de avaliação:</p>
+<ul>
+<li class="fragment">Confiabilidade: O estudo deve poder ser repetido de forma que possamos encontrar resultados similares.</li>
+<li class="fragment">Validade: A conclusão sobre uma hipótese deve refletir de forma acurada a realidade.</li>
+</ul>
+</section>
+<section id="critérios-do-método-científico-1" class="slide level2 study-slide">
+<h2>Critérios do método científico</h2>
+<ul>
+<li class="fragment"><p>Validade de construto: As hipóteses devem ser mensuradas e manipuladas de forma acurada. Devemos ter bons instrumentos de pesquisa e interveções que realmente auxiliam a encontrar o efeito caso ele exista.</p></li>
+<li class="fragment"><p>Validade interna: Se uma hipótese se refere a uma relação causal, a validade interna é importante, pois descreve se o efeito encontrado é da causa hipotética. Explicações alternativas são ameaças a validade interna.</p></li>
+<li class="fragment"><p>Validade externa: O quanto as relações hipotéticas se sustentam em outros objetos de estudo e contextos. É o fator generalizável.</p></li>
+</ul>
+</section>
+<section id="ameaças-a-validade-interna---participantes" class="slide level2">
+<h2>Ameaças a validade interna - participantes</h2>
+<ul>
+<li class="fragment"><p>Maturação: Condições naturais podem ser uma explicação alternativa para diminuir ou aumentar o efeito. Ex: Consumerismo incentivado por produtos de mídia. Prevenção: Ter um <strong>grupo de controle</strong>.</p></li>
+<li class="fragment"><p>Seleção: Diferenças sistemáticas entre os sujeitos da pesquisa entre os grupos. Ex: Pessoas com maior renda tem mais facilidade de adotar um estilo de vida consumerista. Prevenção: <strong>Randomização</strong>.</p></li>
+</ul>
+</section>
+<section id="ameaças-a-validade-interna---instrumentos" class="slide level2">
+<h2>Ameaças a validade interna - instrumentos</h2>
+<ul>
+<li class="fragment"><p>Validade de construto baixa: Há um viés sistemático que pode estar vindo de um construto não hipotetizado. Ex: Os produtos de mídia estão manipulando o status social. Prevenção: Considerar outros construtos que podem ser afetados pela manipulação e medi-los.</p></li>
+<li class="fragment"><p>Instrumentação: Mudança no instrumento de pesquisa durante a pesquisa. Ex: Sua pesquisa utiliza um questionário de um orgão internacional sobre consumerismo. Durante a pesquisa, o orgão muda o instrumento e retrata o anterior. Prevenção: Verificar se o instrumento já está consolidado na literatura.</p></li>
+</ul>
+</section>
+<section id="ameaças-a-validade-interna---instrumentos-1" class="slide level2">
+<h2>Ameaças a validade interna - instrumentos</h2>
+<ul>
+<li class="fragment">Testagem: O efeito da testagem pode sensibilizar o grupo experimental a obter resultados desejáveis, tendo maior motivação do que o grupo de controle. Ex: Ao saber que seu comportamento está sendo mensurado, o participante do grupo experimental se sente mais motivado a adotar um estilo de vida mais sustentável. Prevenção: Considerar um design de estudo que não tenha pré-teste.</li>
+</ul>
+</section>
+<section id="ameaças-a-validade-interna---outras-ameaças" class="slide level2">
+<h2>Ameaças a validade interna - outras ameaças</h2>
+<ul>
+<li class="fragment">Ao saber que está conduzindo um experimento, o pesquisador pode ter ações não naturais, assim como os participantes. Prevenção: Design de pesquisa duplo-cego.</li>
+<li class="fragment">Qualquer evento não previsto que afete as condições do estudo e que acontece durante a intervenção. Prevenção: Identificar possíveis elementos de riscos.</li>
+<li class="fragment">Precedência temporal ambigua: Se não estiver claro que a causa realmente precede o efeito. Prevenção: Manipular a causa ajuda a controlar esta explicação alternativa.</li>
+</ul>
+</section>
+<section id="terminologia-de-variáveis" class="slide level2 study-slide">
+<h2>Terminologia de variáveis</h2>
+<ul>
+<li class="fragment">Construto indica uma propriedade em geral do fenômeno que pode ser expressada de diversas formas.</li>
+<li class="fragment">Variáveis são versões operacionalizadas de um construto, que podem ser medidas e manipuladas.</li>
+<li class="fragment">Se alguma propriedade não apresenta variabilidade, então ela pode ser tratada como uma constante.</li>
+<li class="fragment">Variáveis observáveis são aquelas que podemos medir diretamente.</li>
+<li class="fragment">Variáveis não-observáveis são formadas por um conjunto de características observáveis. São também chamadas de dimensões ou construtos.</li>
+</ul>
+</section>
+<section id="variáveis-de-interesse" class="slide level2 study-slide">
+<h2>Variáveis de interesse</h2>
+<ul>
+<li class="fragment">Variáveis de interesse: São as variáveis presentes nas hipóteses.</li>
+<li class="fragment">Variável independente é a variável de causa ou precedente. Também chamada de entrada, preditora e explicativa.</li>
+<li class="fragment">Variável dependente, por sua vez, é a variável resposta ou de efeito.</li>
+<li class="fragment">Variável mediadora é um elo entre uma variável independente e dependente explicando o motivo ou como a relação causal ocorre.</li>
+<li class="fragment">Variável moderadora altera a força ou sentido da relação entre uma variável independente e dependente.</li>
+</ul>
+</section>
+<section id="variáveis-de-desinteresse" class="slide level2 study-slide">
+<h2>Variáveis de desinteresse</h2>
+<ul>
+<li class="fragment">Confundidora: Uma variável que pode afetar parcialmente ou totalmente as variáveis de interesse. Normalmente não são incluídas nas hipóteses nem mensuradas.</li>
+<li class="fragment">Controle: Uma variável que pode afetar parcialmente ou totalmente as variáveis de interesse, mas são mensuradas.</li>
+<li class="fragment">Background: Uma variável que não está relacionada diretamente as variáveis de interesse, mas ajudam a determinar o quão representativo é o grupo de participantes.</li>
+</ul>
+</section>
+<section id="designs-de-pesquisa" class="slide level2">
+<h2>Designs de pesquisa</h2>
+<ul>
+<li class="fragment">Pesquisas experimentais maximizam a validade interna. Conhecidas como RCTs (Randomized Controlled Trials).</li>
+<li class="fragment">Um experimento precisa de três componentes: manipulação, comparação e randomização.</li>
+<li class="fragment">O experimento cria uma situação em que a variável causal está presente; Compara uma situação sem a causa e com a causa, neutralizando a ameaça por maturação; Seleciona as observações de forma aleatória e usando variáveis de controle.</li>
+</ul>
+</section>
+<section id="estratégias-experimentais" class="slide level2">
+<h2>Estratégias experimentais</h2>
+<ul>
+<li class="fragment"><p><strong>Design fatorial</strong>:Há uma série de variáveis independentes sendo analisadas simultaneamente durante o experimento, inclusive combinando níveis das variáveis independentes (<em>constraste</em>). Ex: Testar um mix de produção em diferentes velocidades e quantidades produzidas.</p></li>
+<li class="fragment"><p><strong>Design de medidas repetidas</strong>: As mesmas observações são testadas em diferentes momentos do experimento, permitindo comparações diretas de antes e depois. Ex: Testar a aprendizagem dos alunos antes e depois de uma metodologia de ensino ser aplicada.</p></li>
+</ul>
+</section>
+<section id="como-cientistas-sociais-fazem-experimentos" class="slide level2">
+<h2>Como cientistas sociais fazem experimentos?</h2>
+<ol type="1">
+<li class="fragment"><p>RCTs: Distribuição aleatória em grupos de tratamento (recebe tratamento) e grupos de controle.</p></li>
+<li class="fragment"><p>Quasi-experimentos: Sem aleatorização completa, mas com grupos de controle e tratamento. Normalmente, são utilizadas técnicas para estabelecer condições de controle e tratamento adequados (PSM e Diff in Diff).</p></li>
+</ol>
+</section>
+<section id="campo-x-laboratório" class="slide level2">
+<h2>Campo x Laboratório</h2>
+<ol type="1">
+<li class="fragment"><p>Experimentos de Campo: Intervenção aplicada no mundo real.<br>
+<em>Alta validade externa</em></p></li>
+<li class="fragment"><p>Experimentos naturais: Explora eventos do mundo real que criam grupos de tratamento e controle de forma não intencional. <em>Alta validade externa e ecológica</em>.</p></li>
+<li class="fragment"><p>Experimentos Laboratoriais: Experimento em ambientes controlados. <em>Alta validade interna e baixa validade ecológica</em>.</p></li>
+</ol>
+</section>
+<section id="como-manipular-as-variáveis-independentes" class="slide level2">
+<h2>Como manipular as variáveis independentes?</h2>
+<ul>
+<li class="fragment">Os níveis da variável independente são determinados pelo pesquisador.</li>
+<li class="fragment">A manipulação também ajuda a controlar variáveis externas, mantendo constante e evitando explicações alternativas.</li>
+<li class="fragment">Manipulação também é conhecida como condições do estudo.</li>
+<li class="fragment">Algumas variáveis não podem ser manipuladas.</li>
+<li class="fragment">Variáveis de diferenças individuais podem ser manipuladas: São propriedade intrinsecas das observações. Ex: Auto-estima, Atitude, Personalidade, etc.</li>
+</ul>
+</section>
+<section id="designs-experimentais" class="slide level2 study-slide">
+<h2>Designs experimentais</h2>
+<ul>
+<li class="fragment"><p>Design de dois grupos: 1 grupo de controle e 1 grupo experimental. Tem um pós-teste após a exposição do efeito.</p></li>
+<li class="fragment"><p>Design de dois grupos pre-post: Adiciona-se um pré-teste ao design de dois grupos para medir alterações.</p></li>
+<li class="fragment"><p>4 grupos de Solomon: O experimento é operacionalizado duas vezes, sem o pré-teste e com o pré-teste.</p></li>
+<li class="fragment"><p>Design de medidas repetidas: Todos os participantes são expostos a todos os níveis de variáveis independentes.</p></li>
+</ul>
+</section>
+<section id="design-de-dois-grupos" class="slide level2">
+<h2>Design de dois grupos</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig7.png" alt="R Logo" width="1200px"></p>
+</div>
+</section>
+<section id="design-de-dois-grupos-pre-post" class="slide level2">
+<h2>Design de dois grupos pre-post</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig8.png" alt="R Logo" width="1200px"></p>
+</div>
+</section>
+<section id="grupos-de-solomon" class="slide level2">
+<h2>4 grupos de Solomon</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig9.png" alt="R Logo" width="1200px"></p>
+</div>
+</section>
+<section id="design-de-medidas-repetidas" class="slide level2">
+<h2>Design de medidas repetidas</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig10.png" alt="R Logo" width="1200px"></p>
+</div>
+</section>
+<section id="designs-quasi-experimentais" class="slide level2 study-slide">
+<h2>Designs quasi-experimentais</h2>
+<ul>
+<li class="fragment">Podemos ter o mesmo que design de dois grupos, mas sem a aletorização.</li>
+<li class="fragment">Podemos ter o mesmo que design de dois grupos pre-post, mas sem ter grupos equivalentes, pois não há aleatorização.</li>
+<li class="fragment">Podemos ter uma série temporal antes e depois da intervenção, sem grupo de controle. Ex: nova legislação de trânsito.</li>
+<li class="fragment">Podemos ter a mesma série temporal replicada pelo menos uma vez. Ex: Política estadual comparada a outro estado sem esta política.</li>
+</ul>
+</section>
+<section id="designs-quasi-experimentais-1" class="slide level2">
+<h2>Designs quasi-experimentais</h2>
+<div style="display: flex; justify-content: space-around;">
+<p><img src="figs/fig11.png" alt="R Logo" width="1200px"></p>
+</div>
+</section>
+<section id="designs-correlacionais" class="slide level2">
+<h2>Designs correlacionais</h2>
+<p>Estes estudos não aplicam nenhuma forma de manipulação das variáveis independentes. Nestes designs as relações causais devem ser feitas com mais precaução, pois há várias ameaças a validade interna. Também são chamados de estudos de survey ou pesquisa de survey.</p>
+</section>
+<section id="estudo-cross-sectional" class="slide level2">
+<h2>Estudo Cross-Sectional</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  A[Tempo Único] --&gt; O1[Observação 1]
+  O1 --&gt; O2[Observação 2]
+  O2 --&gt; O3[Observação 3]
+  O3 --&gt; O4[Observação 4]
+  O4 --&gt; O5[Observação 5]
+
+  %% Ajuste do tamanho das caixas
+  classDef largeBox fill:#bbf,stroke:#333,stroke-width:2px, font-size:16px, width:150px, height:50px;
+  class A,O1,O2,O3,O4,O5 largeBox;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="estudo-de-séries-temporais" class="slide level2">
+<h2>Estudo de séries temporais</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[Observações] --&gt; O1[Tempo 01]
+  O1 --&gt; O2[Tempo 02]
+  O2 --&gt; O3[Tempo 03]
+  O3 --&gt; O4[Tempo 04]
+  O4 --&gt; O5[Tempo 05]
+
+  %% Ajuste do tamanho das caixas
+  classDef largeBox fill:#bbf,stroke:#333,stroke-width:2px, font-size:14px, width:150px, height:50px;
+  class A,O1,O2,O3,O4,O5 largeBox;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="estudo-em-painel" class="slide level2">
+<h2>Estudo em painel</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  subgraph T1 [Tempo 05]
+    O1_1[Observação 1] --&gt; O2_1[Observação 2]
+    O2_1 --&gt; O3_1[Observação 3]
+    O3_1 --&gt; O4_1[Observação 4]
+    O4_1 --&gt; O5_1[Observação 5]
+  end
+
+  subgraph T2 [Tempo 04]
+    O1_2[Observação 1] --&gt; O2_2[Observação 2]
+    O2_2 --&gt; O3_2[Observação 3]
+    O3_2 --&gt; O4_2[Observação 4]
+    O4_2 --&gt; O5_2[Observação 5]
+  end
+
+  subgraph T3 [Tempo 03]
+    O1_3[Observação 1] --&gt; O2_3[Observação 2]
+    O2_3 --&gt; O3_3[Observação 3]
+    O3_3 --&gt; O4_3[Observação 4]
+    O4_3 --&gt; O5_3[Observação 5]
+  end
+
+  subgraph T4 [Tempo 02]
+    O1_4[Observação 1] --&gt; O2_4[Observação 2]
+    O2_4 --&gt; O3_4[Observação 3]
+    O3_4 --&gt; O4_4[Observação 4]
+    O4_4 --&gt; O5_4[Observação 5]
+  end
+
+  subgraph T5 [Tempo 01]
+    O1_5[Observação 1] --&gt; O2_5[Observação 2]
+    O2_5 --&gt; O3_5[Observação 3]
+    O3_5 --&gt; O4_5[Observação 4]
+    O4_5 --&gt; O5_5[Observação 5]
+  end
+
+  %% Ajuste do tamanho das caixas
+  classDef largeBox fill:#bbf,stroke:#333,stroke-width:2px, font-size:14px, width:150px, height:50px;
+  class T1,T2,T3,T4,T5,O1_1,O2_1,O3_1,O4_1,O5_1,O1_2,O2_2,O3_2,O4_2,O5_2,O1_3,O2_3,O3_3,O4_3,O5_3,O1_4,O2_4,O3_4,O4_4,O5_4,O1_5,O2_5,O3_5,O4_5,O5_5 largeBox;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="outros-designs" class="slide level2">
+<h2>Outros designs</h2>
+<ul>
+<li class="fragment">Pesquisas de avaliação: Tem foco na investigação da efetividade de processos, programas e políticas, focados em resolver um problema específico.</li>
+<li class="fragment">Estudos de validação: Tem foco na qualidade de um instrumento de pesquisa e em validar relações teóricas entre construtos. também conhecido como validação de escalas de mensuração.</li>
+</ul>
+</section>
+<section id="verificando-causalidade" class="slide level2">
+<h2>Verificando causalidade</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="960" height="480" viewbox="0.00 0.00 388.92 100.77" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 96.77)">
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-96.77 384.92,-96.77 384.92,4 -4,4"></polygon>
+<!-- X -->
+<g id="node1" class="node">
+<title>X</title>
+<ellipse fill="none" stroke="black" cx="83.41" cy="-46.39" rx="83.31" ry="46.27"></ellipse>
+<text text-anchor="middle" x="83.41" y="-53.59" font-family="Times,serif" font-size="24.00">X</text>
+<text text-anchor="middle" x="83.41" y="-24.79" font-family="Times,serif" font-size="24.00">(Var. Ind.)</text>
+</g>
+<!-- Y -->
+<g id="node2" class="node">
+<title>Y</title>
+<ellipse fill="none" stroke="black" cx="291.87" cy="-46.39" rx="89.11" ry="46.27"></ellipse>
+<text text-anchor="middle" x="291.87" y="-53.59" font-family="Times,serif" font-size="24.00">Y</text>
+<text text-anchor="middle" x="291.87" y="-24.79" font-family="Times,serif" font-size="24.00">(Var. Dep.)</text>
+</g>
+<!-- X&#45;&gt;Y -->
+<g id="edge1" class="edge">
+<title>X-&gt;Y</title>
+<path fill="none" stroke="black" d="M166.89,-46.39C175.37,-46.39 184.04,-46.39 192.67,-46.39"></path>
+<polygon fill="black" stroke="black" points="192.76,-49.89 202.76,-46.39 192.76,-42.89 192.76,-49.89"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><span class="math display">\[
+Y = \alpha + \beta . X
+\]</span></p>
+</section>
+<section id="técnicas-em-experimentos-de-campo-e-naturais" class="slide level2">
+<h2>Técnicas em experimentos de campo e naturais</h2>
+<p><strong>Propensity Score Matching ou pareamento</strong></p>
+<ul>
+<li class="fragment">Cria um grupo de controle artificial pareando indivíduos com características semelhantes.</li>
+<li class="fragment">Exemplo: Avaliar o impacto de um programa educacional em escolas, comparando os alunos que participaram com aqueles que não participaram, mas que têm características semelhantes.</li>
+<li class="fragment">Quando Usar: Quando há um grande número de variáveis observáveis que podem influenciar a alocação no grupo de tratamento.</li>
+</ul>
+</section>
+<section id="técnicas-em-experimentos-de-campo-e-naturais-1" class="slide level2">
+<h2>Técnicas em experimentos de campo e naturais</h2>
+<p><strong>Diff in Diff ou Diferenças em diferenças</strong></p>
+<ul>
+<li class="fragment">Compara a diferença de resultados entre dois grupos (tratamento e controle) antes e depois de uma intervenção.</li>
+<li class="fragment">Exemplo: Avaliar o impacto de uma nova política salarial em uma empresa, comparando o aumento de salários antes e depois da política com uma empresa que não implementou a política.</li>
+<li class="fragment">Quando Usar: Quando há dados disponíveis antes e depois da intervenção para grupos de tratamento e controle. Normalmente, é combinado com PSM.</li>
+</ul>
+</section>
+<section id="técnicas-em-experimentos-de-campo-e-naturais-2" class="slide level2">
+<h2>Técnicas em experimentos de campo e naturais</h2>
+<p><strong>Variáveis instrumentais</strong></p>
+<ul>
+<li class="fragment">Uma variável instrumental é usada para isolar a variação no tratamento que é exógena (não correlacionada com o erro).</li>
+<li class="fragment">Exemplo: Estudar o efeito da educação sobre os salários, onde a distância até a escola pode ser usada como uma variável instrumental para a educação, já que afeta a probabilidade de frequentar a escola, mas não afeta diretamente os salários.</li>
+<li class="fragment">Quando Usar: Quando existe uma variável instrumental válida que afeta o tratamento.</li>
+</ul>
+</section>
+<section id="técnicas-em-experimentos-de-campo-e-naturais-3" class="slide level2">
+<h2>Técnicas em experimentos de campo e naturais</h2>
+<p><strong>Regressão discontínua</strong></p>
+<ul>
+<li class="fragment">Explora um limiar arbitrário para designar indivíduos para o grupo de tratamento. As unidades próximas ao limiar são comparadas.</li>
+<li class="fragment">Exemplo: Comparar alunos que quase receberam uma bolsa de estudos (mas ficaram logo abaixo da nota de corte) com aqueles que a receberam (logo acima da nota de corte).</li>
+<li class="fragment">Quando Usar: Quando há um critério de elegibilidade objetivo que determina quem recebe o tratamento.</li>
+</ul>
+</section>
+<section id="técnicas-em-experimentos-de-campo-e-naturais-4" class="slide level2">
+<h2>Técnicas em experimentos de campo e naturais</h2>
+<p><strong>Controle sintético</strong></p>
+<ul>
+<li class="fragment">Combina dados de várias unidades de controle para criar um grupo de controle “sintético” que se parece com o grupo de tratamento antes da intervenção. A ideia é que o controle sintético seja uma média ponderada das unidades de controle.</li>
+<li class="fragment">Exemplo: Avaliar o impacto de uma nova política ambiental em um país, criando um país sintético.</li>
+<li class="fragment">Quando Usar: Quando há um grupo de tratamento único e não há um grupo de controle claro, mas há unidades comparáveis.</li>
+</ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
