@@ -1,0 +1,407 @@
+---
+title: "Aula 2 - Exploração de dados"
+author: "Fernando Lhamas"
+format: 
+  revealjs:
+    theme: "solarized"
+    slide-number: true
+    transition: "slide"
+    incremental: true
+    css: "style.css"
+    self-contained: false
+---
+
+## Objetivos
+
+- Vamos explorar bases de dados quantitativas no R com foco no reporte de scripts replicáveis e resultados para relatórios de pesquisa. 
+- Revisar conceitos de estatística básica relevantes para conhecer e resumir os dados.
+
+É preferivel ter assistido a aula de primeiro uso do R: <https://www.youtube.com/watch?v=fwL38d8mtqE>
+
+Material base: <https://r4ds.hadley.nz/>
+
+## Explorar os dados em um pesquisa quantitativa
+
+- Facilita o conhecimento dos dados: Auxilia o leitor a compreender a estrutura dos dados e a relação dos dados com a questão de pesquisa.
+- Guia a investigação exploratória: Identifica padrões e relações preliminares que orientam a escolha de técnicas  mais avançadas em análises posteriores. 
+
+## Ferramentas: Tidyverse
+
+::: {style="display: flex; justify-content: space-around;"}
+<img src="figs/fig12.png" alt="R Logo" width="1200px"/>
+:::
+**Vamos utilizar mais os pacotes** *dplyr* **e** *ggplot2*
+---
+
+## Tidyverse
+
+-   É uma coleção de pacotes e pacotes agregados projetados para ciência de dados.
+-   O tidyverse segue uma filosofia de aprendizado de estatística indissociado da abordagem computacional para importação, manipulação, visualização e modelagem de dados.
+-   A sintaxe dos pacotes são similares, baseado em tidy data (dados relacionais com SQL)
+-   Os códigos são lidos como funções em sequência: *f(x)* se torna *x %>% f* (*%>%* se chama pipe).
+
+## Dplyr
+
+O *dplyr* é utilizado para manipulação de dados
+
+-   select( ): Seleciona colunas específicas.
+-   filter( ): Filtra linhas com base em condições.
+-   mutate( ): Cria ou transforma colunas.
+-   summarise( ): Resume dados, calculando estatísticas como média e desvio padrão.
+-   group_by( ): Agrupa dados para análise por categoria.
+---
+
+## Carregue os pacotes após instalar
+```{r, echo=T, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(gapminder)
+```
+
+## Inspecione os dados e peça ajuda
+```{r, echo=TRUE}
+str(gapminder)
+head(gapminder, 3)
+?gapminder
+?ggplot2
+?? dplyr::mutate
+```
+## Sumarize os dados
+```{r, echo=TRUE}
+summary(gapminder)
+```
+## Renomear variáveis
+```{r, echo=TRUE}
+gm <- gapminder #Salvar no ambiente de trabalho
+gm <- gm %>%
+  rename(
+    pais = country,
+    continente = continent,
+    ano = year,
+    expectativa_vida = lifeExp,
+    populacao = pop,
+    pib_per_capita = gdpPercap
+  )
+head(gm, 5)
+```
+## Conferir e recodificar tipo de objetos
+```{r, echo=TRUE}
+cores <- c("azul", "vermelho", "verde", "amarelo", "verde", "vermelho")
+str(cores)
+cores_fator <- factor(cores) # Criar um fator a partir do vetor
+levels(cores_fator) # Verificar os níveis do fator
+levels(gm$continente)
+```
+## Tabela de frequências
+```{r, echo=TRUE}
+gapminder_unique <- gm %>%
+  summarise(total = n_distinct(pais)) %>%
+  pull(total)
+
+tabela <- gm %>%
+  group_by(continente) %>%
+  summarise(
+    Freq.abs = n(),
+    Freq.rel = n_distinct(pais)/gapminder_unique
+  ) %>%
+  mutate (Freq.rel = scales::percent(Freq.rel))
+tabela
+```
+## Formatando uma tabela para relatório de pesquisa
+```{r, echo=TRUE, eval=FALSE}
+library(kableExtra)
+# Formatando a tabela com kable e kableExtra
+tabela %>%
+  kable(
+    format = "html",                           # Formato HTML para slides no Quarto
+    col.names = c("Continente", "Frequência Absoluta", "Frequência Relativa"),  # Títulos das colunas
+    caption = "Distribuição de Países por Continente",  # Título da Tabela
+    align = "c"                                # Alinhamento centralizado
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),  # Opções de estilo
+    full_width = FALSE,                         # Remover bordas laterais
+    position = "center"                         # Centralizar tabela na página
+  ) 
+```
+## Tabela formatada
+```{r, echo=FALSE, eval=TRUE}
+library(kableExtra)
+# Formatando a tabela com kable e kableExtra
+tabela %>%
+  kable(
+    format = "html",                           # Formato HTML para slides no Quarto
+    col.names = c("Continente", "Frequência Absoluta", "Frequência Relativa"),  # Títulos das colunas
+    caption = "Distribuição de Países por Continente",  # Título da Tabela
+    align = "c"                                # Alinhamento centralizado
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),  # Opções de estilo
+    full_width = FALSE,                         # Remover bordas laterais
+    position = "center"                         # Centralizar tabela na página
+  ) 
+```
+## dplyr: filter
+```{r, echo=TRUE}
+dados_2007 <- gm %>% #filtrar exato
+  filter(ano == 2007)
+asia_europa <- gm %>% #filtrar usando "ou"
+  filter(continente == "Asia" | continente == "Europe")
+africa_asia_europa <- gm %>% #filtrar por multiplas condições
+  filter(continente %in% c("Africa", "Asia", "Europe"))
+vida_70_80 <- gm %>% #por regra lógica
+  filter(expectativa_vida >= 70, expectativa_vida <= 80)
+paises_ia <- gm %>% # Filtrar países que contêm "ia"
+  filter(str_detect(pais, "ia"))
+
+
+```
+## dplyr: select
+```{r, echo=TRUE}
+dados_selecionados <- gm %>% # Selecionar colunas específicas
+  select(pais, continente, expectativa_vida)  
+dados_intervalo <- gm %>% # Selecionar um intervalo de colunas
+  select(pais:expectativa_vida) 
+dados_excluindo <- gm %>% # Excluir uma coluna específica
+  select(-pib_per_capita) 
+dados_inicio_p <- gm %>% # Selecionar colunas que começam com "p"
+  select(starts_with("p"))
+dados_fim_cap <- gm %>% # Selecionar colunas que terminam com "cap"
+  select(ends_with("cap"))  
+dados_vida <- gm %>% # Selecionar colunas que contêm "vida"
+  select(contains("vida"))  
+dados_primeiras <- gm %>% # Selecionar as duas primeiras colunas
+  select(1:2)  
+dados_com_p <- gm %>% # Selecionar colunas com "p" no nome
+  select(matches("p"))  
+dados_renomeados <- gm %>% # Selecionar e renomear colunas
+  select(pais, pop_milhares = populacao)
+```
+## dplyr: Exemplos com group_by e summarise
+```{r, echo=TRUE}
+# 1. Média da Expectativa de Vida e População para Países da Ámerica em 2007
+america2007 <- gm %>%
+  filter(continente == "Americas", ano == 2007) %>%  
+  select(pais, expectativa_vida, populacao) %>%  
+  group_by(pais) %>%
+  summarise(
+    expectativa_vida_media = mean(expectativa_vida, na.rm = TRUE),
+    populacao_media = mean(populacao, na.rm = TRUE))
+head(america2007)
+```
+## dplyr: exemplos com group_by e summarise
+```{r, echo=TRUE}
+# 2. Expectativa de Vida Média por Continente, Apenas para Países com População > 2 Milhões
+ev2m <- gm %>%
+  filter(populacao > 2000000) %>% 
+  select(continente, expectativa_vida) %>%  
+  group_by(continente) %>%
+  summarise(expectativa_vida_media = mean(expectativa_vida, na.rm = TRUE))
+ev2m
+```
+## Estatística descritiva de variáveis quantitativas
+```{r, echo=TRUE}
+evpc <- gm %>%
+  group_by(continente) %>%
+  summarise(
+    Media = mean(expectativa_vida, na.rm = TRUE),          
+    Mediana = median(expectativa_vida, na.rm = TRUE),          
+    sd = sd(expectativa_vida, na.rm = TRUE),    
+    CV = (sd / Media) * 100)
+kable(evpc, digits = 2)
+```
+## O que podemos interpretar?
+-   Maiores médias sugerem maior longevidade
+-   Desvio-padrão está na mesma escala da variável, varia para mais ou para menos
+-   CV é a dispersão relativa. Valores => 30% indicam alta variabilidade = mediana mais representativa
+-   Comparações das medidas entre continentes são válidas
+
+---
+
+## dplyr: exemplos com mutate
+```{r, echo=TRUE}
+gm_modificado <- gm %>%
+  mutate(populacao_milhoes = populacao / 1e6,  # Converte população para milhões
+    expectativa_vida_anos = round(expectativa_vida, 0),  # Arredonda expectativa de vida para o inteiro mais próximo
+    crescimento_populacional = (populacao - lag(populacao)) / lag(populacao) * 100,  # Calcula a taxa de crescimento populacional percentual ano a ano
+    continente_fator = as.factor(continente),  # Converte a variável "continente" para fator
+    expectativa_vida_log = log(expectativa_vida),  # Aplica o logaritmo à expectativa de vida
+    populacao_padronizada = (populacao - mean(populacao, na.rm = TRUE)) / sd(populacao, na.rm = TRUE) # Padroniza a população (z-score)
+)
+head(gm_modificado [ ,7:12], 5)
+```
+
+
+## Gráficos com ggplot2 - dispersão
+```{r, echo=TRUE}
+ch1 <- gm %>% 
+  filter(ano == 2007) %>% 
+  ggplot(., aes(pib_per_capita, expectativa_vida))+
+  geom_point()+
+  theme_bw()
+```
+-   linha 1: indicou a base de dados com o dplyr
+-   linha 2: filtro para o ano de 2007 usando o dplyr
+-   linha 3: utilizou o ggplot e definiu as variáveis
+-   linha 4: indicou o tipo de gráfico
+-   linha 5: aplicou o tema preto e branco
+---
+
+## Gráficos com ggplot2
+```{r}
+ch1
+```
+
+## O que podemos interpretar?
+-   Identificar relações proporcionais ou inversamente proporcionais entre duas variáveis
+-   Identificar a intensidade dessa relação
+-   Representação visual de uma correlação
+-   Identificar grupos e/ou padrão não-lineares
+
+---
+
+## Gráficos com ggplot2
+```{r, echo=TRUE}
+ch2 <- gm %>% 
+  filter(continente != "Oceania") %>% 
+  ggplot(., aes(ano, expectativa_vida))+
+  geom_point(alpha = 0.5, aes(color = continente))+
+  theme_bw()+
+  facet_wrap(~ continente, ncol = 4)
+```
+## Gráficos com ggplot2
+```{r}
+ch2
+```
+## Gráficos com ggplot2 - histograma
+```{r, echo=TRUE}
+# Calcular média e desvio padrão da expectativa de vida
+media_vida <- mean(gm$expectativa_vida, na.rm = TRUE)
+desvio_vida <- sd(gm$expectativa_vida, na.rm = TRUE)
+
+ch3 <- ggplot(gm, aes(x = expectativa_vida)) +
+  geom_histogram(aes(y = ..density..), bins = 30, color = "black", fill = "skyblue") +
+  stat_function(fun = dnorm, args = list(mean = media_vida, sd = desvio_vida), color = "red", size = 1) +  # Curva normal sobreposta
+  labs(title = "Distribuição da Expectativa de Vida",
+    x = "Expectativa de Vida", y = "Densidade") +
+  theme_minimal()
+```
+## Gráficos com ggplot2
+```{r}
+ch3
+```
+## O que podemos interpretar?
+
+-   Forma da distribuição para identificar a aderência
+-   Assimetria (direita e esquerda) e curtose (achatamento)
+-   Desvios em relação a curva normal
+
+---
+
+## Gráficos com ggplot2 - Box-plot
+```{r, echo=TRUE}
+ch4 <- ggplot(gm, aes(x = continente, y = expectativa_vida)) +
+  geom_boxplot(outlier.colour = "red", outlier.shape = 16, outlier.size = 2) +  # Adiciona cor e tamanho aos outliers
+  labs(
+    title = "Expectativa de Vida por Continente",
+    x = "Continente",
+    y = "Expectativa de Vida") +
+  theme_minimal()
+```
+## Gráficos com ggplot2
+```{r}
+ch4
+```
+## O que podemos interpretar?
+-   Verifica dispersão dos dados ao longo do resumo de cinco números
+-   Identifica proximidades entre quartis e mediana
+-   Visualiza a amplitude com mínimo e máximo
+-   Identifica outliers para cima e para baixo
+$$ Q3 + 1,5 * DIQ (Q3 - Q1) $$
+$$ Q1 - 1,5 * DIQ (Q3 - Q1) $$
+
+---
+
+## Gráficos com ggplot2 - Violino
+```{r, echo=TRUE}
+ch5 <- ggplot(gm, aes(x = continente, y = expectativa_vida)) +
+  geom_violin(trim = FALSE, fill = "skyblue", color = "black") +  # Violino com distribuição completa
+  geom_boxplot(width = 0.1, outlier.colour = "red", outlier.shape = 16, outlier.size = 2) +  # Box-plot dentro do violino
+  labs(
+    title = "Distribuição da Expectativa de Vida por Continente",
+    x = "Continente",
+    y = "Expectativa de Vida"
+  ) +
+  theme_minimal()
+```
+## Gráficos com ggplot2
+```{r}
+ch5
+```
+## O que podemos interpretar?
+-   É um gráfico que combina as vantagens do box-plot com informações adicionais de um gráfico de densidade, gerando melhor interpretabilidade sobre a distribuição dos dados ao longo do resumo dos cinco números.
+
+## Gráficos com ggplot2 - Linhas
+```{r, echo=TRUE}
+# Filtrar dados do Brasil e calcular o crescimento populacional
+crescimento_populacional <- gm %>%
+  filter(pais == "Brazil") %>%
+  arrange(ano) %>%
+  mutate(crescimento = (populacao - lag(populacao)) / lag(populacao) * 100) %>%  # Cálculo da taxa de crescimento
+  group_by(ano) %>%
+  summarise(crescimento_medio = mean(crescimento, na.rm = TRUE))  # Média do crescimento para cada ano
+
+# Criar o gráfico de linhas
+ch6 <- ggplot(crescimento_populacional, aes(x = ano, y = crescimento_medio)) +
+  geom_line(color = "blue", size = 1) +  # Linha do gráfico
+  geom_point(color = "red", size = 2) +  # Pontos para destacar cada ano
+  labs(title = "Média de Crescimento Populacional do Brasil ao Longo dos Anos",x = "Ano",y = "Crescimento Populacional Médio (%)") +
+  theme_minimal()
+```
+## Gráficos com ggplot2
+```{r}
+ch6
+```
+## Como podemos interpretar?
+-   Identifica mudanças e tendências ao longo do tempo
+-   Permite visualizar as variações ao longo do tempo
+-   Podemos perceber padrões de longo prazo
+-   Podemos comparar outras unidades de análise adicionando mais linhas
+
+## Gráficos com ggplot2 - Barras/colunas
+```{r, echo=TRUE}
+populacao_continente <- gm %>%
+  filter(ano == "2007") %>%
+  mutate(populacao_milhoes = populacao / 1e6) %>%
+  group_by(continente) %>%
+  summarise(populacao_total_milhoes = sum(populacao_milhoes, na.rm = TRUE))  # Soma da população em milhões por continente
+
+ch7 <- ggplot(populacao_continente, aes(x = continente, y = populacao_total_milhoes, fill = continente)) +
+  geom_bar(stat = "identity") +
+  labs(title = "População Total em Milhões por Continente",
+    x = "Continente",
+    y = "População Total (Milhões)") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remover legenda (já que as cores representam os continentes)
+```
+## Gráficos com ggplot2
+```{r}
+ch7
+```
+## O que podemos interpretar?
+
+-   Pode relacionar uma variável quantitativa e qualitativa
+-   Permite comparar a contagem representativa de cada categoria de uma variável qualitativa
+-   Visualização de uma tabela de frequências
+
+## Gráficos com ggplot2 - Mapa de calor
+```{r, echo=TRUE}
+ch8 <- ggplot(gm, aes(x = ano, y = continente, fill = pib_per_capita)) +
+  geom_tile() +
+  labs(title = "Mapa de Calor do PIB per Capita por Ano e Continente",x = "Ano", y = "Continente",fill = "PIB per Capita")+
+  theme_minimal()
+```
+## Gráficos com ggplot2
+```{r}
+ch8
+```
+
