@@ -1,0 +1,194 @@
+---
+title: "Aula 4 - Teste de hipóteses"
+author: "Fernando Lhamas"
+format: 
+  revealjs:
+    theme: "solarized"
+    slide-number: true
+    transition: "slide"
+    incremental: true
+    css: "style.css"
+    self-contained: false
+---
+
+## Estimadores
+
+-   São funções ou fórmulas que usamos para obter um vaor desconhecido da população, baseado em dados amostrais
+
+-   Podemos calcular a média $\mu$ ou a variância $\sigma^2$ da população. Esses são os parâmetros populacionais
+
+-   Ao estudar amostras, aproximamos esses valores com estimativas, com a média amostral $\bar{x}$ e variância $s^2$
+
+-   Portanto, parâmetro é o valor verdadeiro da característica populacional, geralmente desconhecido. O estimador é a aproximação desse valor, que pode variar de uma amostra para outra
+
+## Convergência de um estimador
+
+```{r}
+# Definindo uma média populacional
+true_mean <- 50
+
+# Gerando uma amostra aleatória
+set.seed(123)
+sample_size <- 1000
+sample_data <- rnorm(sample_size, mean = true_mean, sd = 10)
+
+# Calculando a média amostral conforme aumentamos o tamanho da amostra
+sample_means <- cumsum(sample_data) / (1:sample_size)
+
+# Plotando a convergência
+plot(sample_means, type = "l", col = "blue", 
+     xlab = "Tamanho da Amostra", 
+     ylab = "Média Amostral", 
+     main = "Convergência da Média Amostral")
+abline(h = true_mean, col = "red", lty = 2) # Linha para a média verdadeira
+legend("topright", legend = c("Média Amostral", "Média Verdadeira"), 
+       col = c("blue", "red"), lty = c(1, 2))
+
+```
+
+## Bons estimadores
+
+-   Consistência: o estimador converge para o verdadeiro valor à medida que o tamanho da amostra aumenta.
+-   Viés: um estimador é não-viesado se, em média, acerta o parâmetro da população.
+-   Eficiência: entre dois estimadores não viesados, o mais eficiente tem menor variância.
+-   Suficiência: um estimador é suficiente se utiliza toda a informação da amostra relevante para o parâmetro.
+
+## Propriedades dos estimadores
+
+-   Propriedade 1: Um estimador $T$ é considerado não viesado ou não viciado de um parâmetro $P$ se o valor esperado de $T$ for igual a $P$. Formalmente, isso é expresso como $E(T) = P$. Em outras palavras, o estimador em média acerta o valor do parâmetro verdadeiro.
+
+## Propriedades dos estimadores
+
+-   Propriedade 2: Entre dois estimadores não viesados, $T$ e $T'$, do mesmo parâmetro $P$, se a variância de $T$ é menor do que a variância de $T'$ (ou seja, $V(T) < V(T')$), então $T$ é considerado mais eficiente que $T'$. Isso significa que $T$ tende a ser mais preciso, pois apresenta menos variabilidade ao redor do valor verdadeiro do parâmetro.
+
+## Propriedades dos estimadores
+
+-   Propriedade 3: Um estimador é consistente se, à medida que o tamanho da amostra tende ao infinito, ele se aproxima do valor verdadeiro do parâmetro. Formalmente, podemos dizer que o desvio populacional do estimador tende a zero quando o tamanho da amostra ($n$) aumenta indefinidamente. Em termos matemáticos, isso implica que $\lim_{n \to \infty} \text{Desvio}(T) = 0$.
+
+## Teorema do Limite Central (TLC)
+
+De acordo com o TLC, a medide que o n aumenta, o $\bar{x}$ de variáveis identicamente distribuidas (ainda que não normais) tendem a seguir uma distribuição normal com média $\mu$ e variância $\sigma^2/n$. Essas propriedades garantem que as inferências sobre o parâmetro populacional seja válido ao aumentar o n. 
+
+-   Obs: Para calcular amostras, é importante notar que o aumento do n indefinidamente prejudica encoontrar o efeito real do fenômeno estudado.
+
+## TLC
+
+```{r, echo=FALSE}
+# Configurações iniciais
+set.seed(123)
+library(ggplot2)
+
+# Função para gerar médias amostrais
+generate_means <- function(n, iter = 1000) {
+  means <- replicate(iter, mean(rexp(n, rate = 1))) # Exponencial com lambda = 1
+  return(means)
+}
+
+# Tamanhos de amostra
+sample_sizes <- c(10, 300, 1000)
+means_data <- data.frame(
+  mean = c(generate_means(10), generate_means(300), generate_means(1000)),
+  sample_size = factor(rep(sample_sizes, each = 1000))
+)
+
+# Calculando médias e desvios padrão para as curvas normais
+mean_exp <- 1  # Média da distribuição exponencial com lambda = 1
+std_dev_exp <- 1  # Desvio padrão da distribuição exponencial
+
+# Plotando os histogramas com curvas normais sobrepostas
+ggplot(means_data, aes(x = mean, fill = sample_size)) +
+  geom_histogram(aes(y = ..density..), bins = 30, alpha = 0.6, color = "black") +
+  stat_function(
+    fun = dnorm, 
+    args = list(mean = mean_exp, sd = std_dev_exp / sqrt(10)),
+    color = "blue", size = 1, data = subset(means_data, sample_size == 10)
+  ) +
+  stat_function(
+    fun = dnorm, 
+    args = list(mean = mean_exp, sd = std_dev_exp / sqrt(300)),
+    color = "blue", size = 1, data = subset(means_data, sample_size == 300)
+  ) +
+  stat_function(
+    fun = dnorm, 
+    args = list(mean = mean_exp, sd = std_dev_exp / sqrt(1000)),
+    color = "blue", size = 1, data = subset(means_data, sample_size == 1000)
+  ) +
+  facet_wrap(~ sample_size, ncol = 2, scales = "free") +
+  labs(title = "Distribuição das Médias Amostrais com Curva Normal para Diferentes Tamanhos de Amostra",
+       x = "Média Amostral",
+       y = "Densidade",
+       fill = "Tamanho da Amostra") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+```
+
+## Padronização pela Normal
+
+-   A padronização pela distribuição normal é uma técnica utilizada para transformar uma variável com média $\mu$ e desvio padrão $\sigma$ em uma nova variável com média zero e desvio padrão 1. Isso nos permite comparar variáveis em diferentes escalas ou trabalhar com a distribuição padrão, facilitando a interpretação e a aplicação de certos testes estatísticos.
+$$ Z = \frac{X - \mu}{\sigma} $$
+
+
+## Estimação por ponto e intervalar
+
+-   Por ponto: o salário médio anual dos profissionais da área de Administração é de 18 mil por ano
+-   Por intervalo: o salário médio anual dos profissionais da área de administração esta entre 16 mil e 20 mil por ano
+-   Por intervalo (forma mais correta 1): com 95% de chance o salário anual médio do administrador está entre 16 mil e 20 mil
+-   Por intervalo (forma mais correta 2): com 95% de chance o salário anual médio do administrador está entre 16 mil e 20 mil, com uma margem de erro de 2 mil
+
+# Teste de hipóteses
+
+-   É uma forma comum aos testes estatísticos para avaliar evidências de amostras e fazer inferências sobre populações
+-   Definimos afirmações mutuamente exclusivas: A hipótese nula ($H_0$) e a hipótese alternativa ($H_1$) ou ($H_a$)
+-   O teste de hipóteses orienta decisões baseadas em dados
+
+## Teste de hipóteses
+
+-   Uma hipótese estatística é uma afirmação ou conjectura sobre um parâmetro da distribuição de probabilidade de uma característica X da população ou de uma variável aleatória.
+- Um teste de hipóteses é o procedimento ou regra de decisão a partir de estatísticas do teste de um modelo estatístico, que possibilita decidir pela rejeição ou não de $H_0$
+
+## Teste de hipóteses {.study-slide}
+
+-   Hipóteses alternativas não são aceitas, pois estamos avaliando a plausibilidade ou chance de que a hipótese nula seja verdadeira. 
+-   A hipótese nula é que está sendo testada, para que se esgote ou se aproxime de 0 a chance dela ser verdadeira, restando apenas a hipótese alternativa, seu contraponto mutuamente excludente
+- A $H_1$ também é conhecida como a hipótese experimental, é a suposição a partir da observação causal que fazemos acerca do fenômeno estudado. É o resultado que esperamos encontrar.
+
+---
+
+::: {style="display: flex; justify-content: space-around;"}
+<img src="figs/fig13.png" alt="R Logo" width="1000px"/>
+:::
+
+---
+
+## Erros do Tipo 1 e Tipo 2
+
+| **Decisão**                        | **Hipótese Nula Verdadeira (H0 é verdadeira)**.     | **Hipótese Nula Falsa (H1 é verdadeira)** |
+|------------------------------------|-----------------------------------------------------|------------------------------------------------|
+| **Rejeitar H0**               | Erro do Tipo I (Falso Positivo)                    | Decisão Correta (Verdadeiro Positivo)          |
+| **Não Rejeitar H0**           | Decisão Correta (Verdadeiro Negativo)              | Erro do Tipo II (Falso Negativo)               |
+
+## Erros do Tipo 1 e Tipo 2
+
+-   Falso positivo: Rejeitamos $H_0$ apesar dela ser verdadeira. Este erro é controlado pelo $\alpha$, que representa a probabilidade máxima de cometermos erro do tipo 1
+-   Desde a concepção do estudo, passando pelo design, escolha e preparação dos instrumentos de pesquisa, calibração dos instrumentos, forma de coleta, tratamento de dados e avaliação de pressupostos, até a escolha do modelo/técnica estatística pode influenciar o $\alpha$
+
+## Erros do Tipo 1 e Tipo 2
+-   Falso negativo: Ocorre quando não rejeitamos a hipótese nula, apesar dela ser falsa. A probabilidade desse erro é representada pelo $\beta$ e seu complementar (1 - $\beta$). É o que chamamos de poder do teste
+- Tamanho de amostra inadequado pode prejudicar o poder do teste. Devemos calcular corretamente o intervalo de n que nos ajuda a captar o efeito quando ele de fato existe.
+
+## Valor-p e efeito {.study-slide}
+
+-   É uma medida probabílistica que ajuda a avaliar a evidência contra a hipótese nula. Sob a suposição de que $H_0$ é verdadeira
+-   Valor-p baixo, normalmente ($\alpha <= 0,05$) indica que os dados observados são improváveis sob a suposição $H_0$
+-   Se guiar apenas pelo valor-p, no entanto, não é suficiente, pois o valor-p não mede a magnitude do efeito
+-   Em outras palavras, podemos ter um p baixo, mas como efeitos práticos irrelevantes.
+
+## Valor-p e efeito {.study-slide}
+
+-   O efeito é magnitude do fenômeno que estamos testando. É o impacto ou tamanho de efeito que indica o quão significativo é o efeito encontrado, ou seja, se ele é relevante em termos práticos
+-   Cada teste estatístico tem o seu próprio modelo ou função que gera a estatística do teste. Diferente do valor-p, utilizado em todas as técnicas, cada técnica tem seu próprio efeito ou sua forma de calcular a magnitude
+
+
+
