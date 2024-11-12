@@ -1,0 +1,342 @@
+---
+title: "Aula 5 - Survey"
+author: "Fernando Lhamas"
+format: 
+  revealjs:
+    theme: "solarized"
+    slide-number: true
+    transition: "slide"
+    incremental: true
+    css: "style.css"
+    self-contained: false
+---
+
+## O que é survey?
+
+-   É um instrumento de pesquisa dotado de questões fechadas, semiabertas e/ou abertas, sobre um tema específico com fins de captar a perpceção de indivíduos
+-   É um conjunto de itens baseados em 1 ou mais construtos para obter informações sobre indivíduos
+-   É um conjunto pré-determinado de questões destinado a coletar dados de respondentes selecionados
+
+## O que é survey?
+
+-   Survey existe desde o mundo antigo, desde que se percebeu a necessidade de conhecer uma sociedade através de padrões de comportamento e de informações que poderiam ser obtidas direto com os indivíduos.
+-   Além da importância em pesquisa, as organizações investem bilhões em surveys para compreender comportamentos e identificar tendências.
+
+## 💀 Pesquisa de survey 💀
+
+-   Quando dizemos que vamos fazer uma pesquisa de survey, nada mais é do que informar que vamos conduzir uma pesquisa utilizando como coleta um questionário
+-   Pesquisa de survey não é um tipo de pesquisa ou design de um estudo, é um conceito mais equivalente a um questionário
+
+## Ciências do comportamento
+
+-   Normalmente, surveys são atribuidos as ciências do comportamento, por investigar atitudes, crenças, percepções, entre outras medidas comportamentais.
+-   Em ciências sociais aplicadas é comum realizar pesquisas que necessitam medir comportamentos, utilizando modelos psicossociais
+-   A área que se debruça na condução robusta de um survey é a psicometria
+
+## Instrumentos de autorrelato
+
+-   É um tipo de survey em que o respondente autorrelata percepções, emoções e comportamentos
+
+-   O fenômeno é sempre mais complexo do que o instrumento consegue captar, por isso é compreendido como proxy (aproximação do fenômeno). Todo instrumento de pesquisa tem limitações, buscamos minimizar.
+
+## Situações na literatura
+
+-   O instrumento existe e já tem adaptação na sua cultura.
+-   O instrumento existe, mas precisa ser adaptado na sua cultura.
+-   O instrumento não existe.
+
+Obs 1: Quando o instrumento existe, é mais interessante adaptar um ou mais instrumentos.
+
+Obs 2: A construção pode ser justificada quando o instrumento não existe, quando existe, mas a qualidade metodológica é pobre ou quando culturalmente o instrumento é pouco generalizável
+
+## Construção
+
+1.  Revisão da literatura. Produto: Definição dos construtos/dimensões ou definição constitutiva. **Construto é uma variável não-observável**
+
+2.  Elaboração de itens. Produto: Sintomas ou manifestações do construto. **Os itens medem variáveis observáveis**
+
+3.  Avaliação das evidências: validade de conteúdo, validade interna, validade externa, validade convergente, validade discriminante, etc.
+
+## Construção
+
+::: columns
+::: {.column width="50%"}
+::: {style="display: flex; justify-content: space-around;"}
+<img src="figs/fig14.png" alt="R Logo" width="1000px"/>
+:::
+:::
+
+::: {.column width="50%"}
+-   Terreno: Design do estudo
+-   Fundação: Objetivo
+-   Piso 1: Hipóteses e técnicas
+-   Piso 2: Definição de construto
+-   Telhado: Itens
+:::
+:::
+
+## Procedimentos para adaptação
+
+-   Tradução e síntese
+-   Avaliação da tradução por experts
+-   Adaptação transcultural
+-   Avaliação com especialistas
+-   Pré-teste: Calibragem do instrumento
+-   Teste piloto: Simulação do estudo
+
+## Necessidades de adaptação avançadas
+
+-   Aquiescência (Tendência de Concordância): Esse viés ocorre quando respondentes tendem a concordar com afirmações independentemente do conteúdo.
+*Como resolver*: Use perguntas balanceadas, alternando entre afirmações positivas e negativas; Inclua itens invertidos para evitar respostas automáticas; Opte por escalas que exigem uma análise cuidadosa de cada item.
+
+## Necessidades de adaptação avançadas
+
+-   Desejabilidade Social: Este viés ocorre quando os respondentes respondem de maneira a serem vistos de forma favorável.
+*Como resolver*: Formule perguntas de maneira neutra, sem sugerir respostas certas; Explique a anonimidade e confidencialidade para reduzir o desejo de responder conforme normas sociais; Inclua escalas que medem a desejabilidade social diretamente, para depois controlar esse efeito na análise.
+
+## Necessidades de adaptação avançadas
+
+-   Escolha Forçada: Essa técnica pode ser usada para reduzir vieses de resposta, obrigando os respondentes a escolher entre opções que têm valências diferentes, evitando que eles escolham uma resposta neutra ou "socialmente aceitável". *Como aplicar*: Desenvolva pares de afirmações que representem alternativas distintas, e peça ao respondente que selecione a opção com a qual mais se identifica. Isso força uma escolha que revela preferências mais precisas e ajuda a controlar a desejabilidade social e a aquiescência.
+
+# Tipos de questões
+
+-   Abertas
+-   Fechadas
+-   Semiabertas
+
+## Questões abertas
+
+::: columns
+::: {.column width="50%"}
+-   **Questões abertas**: São questões com perguntas que deixam a cargo do respondente o caminho a ser tomado na resposta. Não há alternativas pré-determinadas. Normalmente utilizado em design que envolve abordagem qualitativa.
+:::
+
+::: {.column width="50%"}
+-   **Quando usar**: Complementar questão para aprofundamento; Perguntas com grande número de alternativas; Para explicar ações e decisões inviáveis de serem operacionalizadas em categorias; Perguntas exploratórias. 
+:::
+:::
+
+## Questões fechadas
+
+::: columns
+::: {.column width="50%"}
+-   **Questões fechadas**: O respondente deve escolher 1 ou mais opções. Normalmente com uso de escalas.
+:::
+
+::: {.column width="50%"}
+-   **Quando usar**: Medir comportamentos através de uma escala numerica; Captar dados socioeconômicos e de perfil; Captar dados de contagem. 
+:::
+:::
+
+## Questões semiabertas
+
+::: columns
+::: {.column width="50%"}
+-   **Questões semiabertas**: Há opções definidas, mas com possibilidade de resposta livre.
+:::
+
+::: {.column width="50%"}
+-   **Quando usar**: Especificar uma resposta anterior; Categorização a posteriori; Quando precisar adotar a opção *Outros*; Captar contextos simples.
+:::
+:::
+
+## Tipos de perguntas e afirmações {.study-slide}
+
+-   Para escolher a forma em que a característica será mensurada, é necessário refletir se a forma ajuda a captar o que você está querendo medir.
+-   São fatores de decisão o tempo de resposta, o nível de compreensão, o tempo para compreender a questão e se a forma não atrapalha a caracterização do sintoma da definição constitutiva. 
+-   Queremos sempre um survey mais uniforme possível, com tempo de resposta curto e perguntas de fácil compreensão, que maximizem a validade de construto.
+
+## Tipos de perguntas e afirmações
+
+Tipos de perguntas do SurveyMonkey
+<https://help.surveymonkey.com/pt-br/surveymonkey/create/question-types/>
+
+Tipos de perguntas do QuestionPro
+<https://www.questionpro.com/blog/pt-br/perguntas-para-uma-pesquisa-online/>
+
+*Obs: Pagar por uma ferramenta de survey não garante validade de construto*
+
+## Plataformas para designs experimentais
+
+PsyToolkit (gratuito)
+<https://www.psytoolkit.org/survey-library/>
+
+JsPsych (gratuito)
+<https://www.jspsych.org/latest/>
+
+Hospedagem de experimentos
+<https://mindprobe.eu>
+
+## Escalas (opções de respostas)
+
+-   As escalas são aplicáveis em questões fechadas. A escala mais adequada é aquela que maximiza a validade de construto. 
+-   A escala determina o tipo de variável que será gerada.
+-   Escala métrica como sistema de pontuação, gera uma variável quantitativa contínua.
+-   Escala Likert gera uma variável qualitativa ordinal.
+-   É importante já ter concebido o plano de análise para saber se o tipo de variável gerada é compativel com a técnica a ser aplicada.
+
+## Escalas de mensuração
+
+-   Se refere a um conjunto de itens que formam a definição constitutiva de um construto ou de vários construtos presentes no mesmo fenômeno estudado. 
+
+-   É o tipo de survey obrigatório em estudos de validação. 
+
+## Método de coleta
+
+-   In loco: Coleta presencial pelo pesquisador ou equipe de coleta. *Vantagens*: Alta taxa de resposta, criação de vínculo e esclarecimento de dúvidas. *Desvantagens*: Caro, demorado e com acesso limitado.
+
+-   Virtual: Coleta online via formulários ou de forma síncrona. *Vantagens*: Fácil administração, custo baixo e alto alcance geográfico. *Desvantagens*: Limitado a quem aceita responder, maior propensão de respostas descartáveis.
+
+## Decisões de administração do survey
+
+-   *Canais*: Questionário online ou presencial? Como abordar os respondentes? Como encontrar respondentes que façam parte da população? Quais canais utilizar? Se virtual, como divulgar o formulário?
+
+-   *Carta de apresentação*: Como iniciar o contato com o possível respondente? Tom formal ou informal? Quanto devo explicar sobre a pesquisa? Como irá informar sobre o uso dos dados? Quais informações de segurança precisam ser informadas?
+
+## Decisões de administração do survey
+
+-   *Estrutura do survey*: Quantas questões? Terá diversidade de escalas? Quantos blocos? Perguntas de perfil no início ou no final? Terá garantia de anonimato? Precisa de algum tipo de identificação? Terá questões de filtro da amostra? Precisa selecionar blocos de questões aleatoriamente? Quanto tempo demora para responder? Terá nova coleta com o mesmo respondente? Terá mais de um canal de coleta? Se sim, quais?
+
+## Decisões de administração do survey
+
+-   *Instruções*: Quais orientações o respondente precisa para responder o survey? Precisa definir algum conceito?
+
+-   *Incentivo*: Terá algum incentivo monetário ou recompensa material? Algum feedback individual ou coletivo? Alguma promessa de resultados da pesquisa?
+
+## Ajustes na redação das questões {.study-slide}
+
+-   É importante validar a redação das questões e o instrumento com um todo com especialistas (Pré-teste)
+
+-   Também é importante verificar como o instrumento performa com parte da população-alvo (teste piloto ou estudo preliminar)
+
+-   Ajustes de redação são realizados após essas rodadas de calibração
+
+-   É uma boa prática pré-registrar o instrumento calibrado antes da coleta oficial
+
+## Certo e errado nos questionários
+
+**Qual a pergunta correta a se fazer em um questionário?**
+
+::: {.columns}
+::: {.column width="50%"}
+- [ ] **A:** Apoio a criação dos filhos de acordo com a crença dos pais.
+- [ ] **B:** Devo apoiar a família e a sagrada palavra de Deus para garantir a criação dos filhos de acordo com minhas crenças.
+:::
+
+::: {.column width="50%"}
+-   A: Apoio a criação dos filhos de acordo com a crença dos pais.
+
+-   *Muitas premissas e muitos assuntos desconexos enviesa a questão.*
+:::
+:::
+
+## Certo e errado nos questionários
+
+**Qual a pergunta correta a se fazer em um questionário?**
+
+::: {.columns}
+::: {.column width="50%"}
+- [ ] **A:** Os estudantes de ensino médio deveriam ter mais aulas de sociologia.
+- [ ] **B:** Os estudantes de ensino médio deveriam ter mais aulas de sociologia e história.
+:::
+
+::: {.column width="50%"}
+-   A: Os estudantes de ensino médio deveriam ter mais aulas de sociologia.
+
+-   *Não é correto fazer perguntas compostas. Cada variável mede uma característica.*
+:::
+:::
+
+## Certo e errado nos questionários
+
+**Qual a pergunta correta a se fazer em um questionário?**
+
+::: {.columns}
+::: {.column width="50%"}
+- [ ] **A:** O processo de tirar CNH promovido pelo DETRAN-BA é barril.
+- [ ] **B:** O processo para obter a habilitação de trânsito é difícil para mim.
+:::
+
+::: {.column width="50%"}
+-   B: O processo para obter a habilitação de trânsito é difícil para mim.
+
+-   *Evite jargões e abreviações.*
+:::
+:::
+
+## Certo e errado nos questionários
+
+**Qual a pergunta correta a se fazer em um questionário?**
+
+::: {.columns}
+::: {.column width="50%"}
+- [ ] **A:** O tempo de espera na fila do banco é excruciante
+- [ ] **B:** O tempo de espera na fila do banco é doloroso
+:::
+
+::: {.column width="50%"}
+-   B: O tempo de espera na fila do banco é doloroso
+
+-   *Evite palavras incomuns, sofisticadas ou termo técnico inadequado para a população-alvo.*
+:::
+:::
+
+## Certo e errado nos questionários
+
+**Qual a pergunta correta a se fazer em um questionário?**
+
+::: {.columns}
+::: {.column width="50%"}
+- [ ] **A:** Consumo este produto de 1 a 2 vezes na semana.
+- [ ] **B:** Consumo este produto ocasionalmente.
+:::
+
+::: {.column width="50%"}
+-   A: Consumo este produto de 1 a 2 vezes na semana.
+
+-   *Evite palavras ambíguas ou que admitem interpretações diferentes.*
+:::
+:::
+
+## Certo e errado nos questionários
+
+**Qual a pergunta correta a se fazer em um questionário?**
+
+::: {.columns}
+::: {.column width="50%"}
+- [ ] **A:** Você votaria no candidato A para evitar a desgraça nacional?
+- [ ] **B:** Em quem você votaria para as próximas eleições?
+:::
+
+::: {.column width="50%"}
+-   B: Em quem você votaria para as próximas eleições?
+
+-   *Evite perguntas hipotéticas que criam falsos dilemas*
+:::
+:::
+
+## Ajustes na redação das questões {.study-slide}
+
+1. Certifique-se que as perguntas não sejam tendenciosas.
+
+2. Não faça perguntas compostas.
+
+3. Não faça a união de dois assuntos desconexos.
+
+4. Evite jargões, abreviações e símbolos.
+
+5. Evite palavras incomuns e sofisticadas para o público-alvo.
+
+6. Evite palavras ambíguas.
+
+7. Não crie falsos dilemas. 
+
+8. Não crie perguntas sem suporte teórico.
+
+## Leituras recomendadas
+
+-   How to Run Surveys - Stephanie Stantcheva (2023)
+<https://www.annualreviews.org/content/journals/10.1146/annurev-economics-091622-010157>
+
+-   Estudo de validação - Nunes, Proença e Todaro (2024)
+<https://periodicos.fgv.br/rae/article/view/91369>
