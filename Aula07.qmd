@@ -1,0 +1,602 @@
+---
+title: "Aula 07 - Análise de variância"
+author: "Fernando Lhamas"
+format: 
+  revealjs:
+    theme: "solarized"
+    slide-number: true
+    transition: "slide"
+    incremental: true
+    css: "style.css"
+    self-contained: false
+---
+
+## O que vimos até aqui e para onde vamos?
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+
+<div style="text-align: center; padding: 10px; border: 1px solid black;">
+<strong>Design do Estudo</strong><br>
+Ciclo empírico<br>
+Estudo da literatura<br>
+</div>
+
+<div style="text-align: center; padding: 10px; border: 1px solid black;">
+<strong>Definição Constitutiva</strong><br>
+Variáveis<br>
+Obtenção de dados<br>
+Pressupostos
+</div>
+
+<div style="text-align: center; padding: 10px; border: 1px solid black;">
+<strong>Análise Exploratória e inferencial</strong><br>
+Testes de Hipóteses<br>
+Análise multivariada<br>
+</div>
+
+</div>
+
+<div style="margin-top: 20px; padding: 10px; border: 1px solid black; text-align: center;">
+<strong>Técnicas para Designs Quasi-experimentais</strong><br>
+PSM, Diff-in-Diff, RDD, VI e CS
+</div>
+
+## Técnicas de comparações de médias
+
+<div style="font-size: 60%;">
+
+| Técnica          | Objetivo Principal                              | Quando Usar                                                                                 | Exemplo de Aplicação                             |
+|------------------|-------------------------------------------------|---------------------------------------------------------------------------------------------|-------------------------------------------------|
+| **Teste t**      | Comparar médias de dois grupos                  | Dois grupos independentes ou duas medições pareadas                                         | Comparar o desempenho de dois departamentos     |
+| **ANOVA**        | Comparar médias de mais de dois grupos          | Mais de dois níveis de uma variável categórica                                   | Avaliar a eficácia de diferentes estratégias    |
+| **MANOVA**       | Comparar múltiplas variáveis dependentes        | Quando há múltiplas variáveis dependentes correlacionadas                                  | Comparar programas de treinamento em múltiplas métricas |
+| **t de Hotelling** | Comparar médias multivariadas de dois grupos  | Dois grupos independentes, mas com múltiplas variáveis dependentes                        | Comparar preferências de consumo em dois mercados |
+
+</div>
+
+## Técnicas de comparações de médias
+
+-   É uma famílai de técnicas com suporte do teste de hipóteses com o objetivo em comum de comparar grupos (variável independente) ao longo de uma ou mais variáveis dependentes, para comparar as médias dos grupos.
+
+-   $H_0$: Não existe diferença nas médias entre os grupos da(s) variável(is)
+
+-   $H_1$: Existe diferença em pelo menos um par de grupos da(s) variável(is)
+
+## Considerações sobre as técnicas {.study-slide}
+
+-   O $T^2$ de Hotelling caiu em desuso. Foi substituido pela MANOVA. Antigamente, a técnica era utilizada por conta de limitações computacionais. 
+
+-   As técnicas podem ser conduzidas com design pareado, onde cada observação é o seu próprio controle, sendo uma boa estratégia para minimizar o efeito de variáveis confundidoras.
+
+-   A ANOVA é um teste estatístico amplamente utilizado para testar a diferença entre três ou mais grupos. 
+
+-   A ANOVA também comporta um design fatorial, quando a var. dependente é influenciada por mais de um fator. 
+
+## Considerações sobre ANOVA {.study-slide}
+
+-   **Anova one-way**: Um pesquisador investiga três métodos de ensino (A, B e C), para avaliar se há diferença de médias de desempenho dos alunos. 
+
+-   **Anova de medidas repetidas**: Um pesquisador estuda diferentes condições de tempo (T1, T2, T3) para medir o acesso a um serviço. $(H_0): \mu_{T1} = \mu_{T2} = \mu_{T3} )$
+
+-   **Anova Fatorial**: Um pesquisador investiga três faixas etárias (I1, I2 e I3) com duas faixas de renda (R1 e R2) e suas interações, sobre a intenção de compra. $H_1$: Pelos menos dois níveis tem médias significativamente diferentes. 
+
+## Outros designs {.study-slide}
+
+-   **ANCOVA**: Ajusta um modelo de ANOVA com covariáveis que são variáveis de desinteresse, do tipo controle. Ex: Estudar métodos de ensino controlados pelo conhecimento inicial.
+
+-   **MANOVA**: Temos mais de uma variável dependente. Ex: Estudar satisfação e continuidade de uso de um sistema por grupos de faixa etária.
+
+-   **MANCOVA**: Mesma função da ANCOVA, só que na MANOVA. $H_0$: Não há diferenças significativas entre os grupos, considerando as covariáveis. 
+
+## Pressupostos  da ANOVA
+
+### Pressupostos
+-   Normalidade: Os resíduos (diferença entre o observado e o previsto no modelo) devem atender ao pressuposto de normalidade
+
+-   Homocedasticidade: A variância dos resíduos deve ser igual em todos os níveis do fator independente
+
+-   Variável dependente sendo quantitativa contínua
+
+-   Independência entre observações: Os valores de uma unidade não devem influenciar valores de outra unidade. Ex de violação: Resultados do grupo A influenciam resultados do grupo B
+
+## Preparação para ANOVA
+
+### Data wrangling
+-   Tratamento de dados ausentes: Remoção quando for baixo (< 3%), substituição pela mediana (na var. dependente) ou imputação
+
+-   Tratamento de outliers: Identificar com dados padronizados e ajustar
+
+-   Cálculo amostra: Considerando complexidade do modelo, tamanho de efeito e poder estatístico (> 80%)
+
+-   Verificar os dados: Codificação, transformação e disposição dos dados correta para análise
+
+## Resumo Conceitual
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+
+<div style="width: 45%; font-size: 60%;">
+
+**Banco de Dados: Formato Longo**
+
+| Grupos | Var1 |
+|--------|------|
+| A      | 3    |
+| A      | 2    |
+| A      | 1    |
+| B      | 5    |
+| B      | 3    |
+| B      | 4    |
+| C      | 5    |
+| C      | 6    |
+| C      | 7    |
+
+</div>
+
+<div style="width: 45%; font-size: 60%;">
+
+**Dados de Entrada: Matriz**
+
+| Grupos | A | B | C |
+|--------|---|---|---|
+|        | 3 | 5 | 5 |
+|        | 2 | 3 | 6 |
+|        | 1 | 4 | 7 |
+
+</div>
+
+</div>
+
+## Resumo conceitual - passo a passo
+
+Khan Academy <https://pt.khanacademy.org/math/statistics-probability/analysis-of-variance-anova-library>
+
+## Soma de Quadrados Totais
+
+A fórmula para o cálculo da soma de quadrados totais ($(SS_{Total}$)) é:
+
+$$
+SS_{Total} = \sum_{i=1}^{n} (Y_i - \bar{Y})^2
+$$
+
+Substituindo os valores dos dados fornecidos:
+
+<div style="font-size: 50%;">
+
+$$
+SS_{Total} = (3-4)^2 + (2-4)^2 + (1-4)^2 + (5-4)^2 + (3-4)^2 + (4-4)^2 + (5-4)^2 + (6-4)^2 + (7-4)^2
+$$
+</div>
+
+Após realizar os cálculos, obtemos:
+
+$$
+SS_{Total} = 1 + 4 + 9 + 1 + 1 + 0 + 1 + 4 + 9 = 30
+$$
+
+## Graus de Liberdade {.study-slide}
+
+<div style="font-size: 70%;">
+
+### Definição Formal
+
+-   Os graus de liberdade ($(df$)) referem-se ao número de valores independentes que podem variar em um cálculo estatístico
+
+$df = \text{número total de observações} - \text{número de restrições ou parâmetros estimados}$
+
+### Conceito 2
+-   Se você tem 3 brinquedos, pode brincar com eles de diferentes formas, mas se sua mãe escolheu 1 para guardar, só restam 2 opções para você
+
+### Conceito 3
+-   Em um cálculo, é a quantidade de informações independentes disponíveis para fazer uma estimativa. Quanto mais graus de liberdade, maior a precisão potencial.
+
+</div>
+
+## Graus de Liberdade do $SS_{Total}$
+
+Os graus de liberdade do $SS_{Total}$ são calculados como:
+
+$$
+df_{Total} = n - 1
+$$
+
+### Substituindo os valores:
+- $n$ é o número total de observações.
+- No exemplo, temos:
+  - $n = 3 \text{ (Grupo A)} + 3 \text{ (Grupo B)} + 3 \text{ (Grupo C)} = 9$.
+
+$$
+df_{Total} = 9 - 1 = 8
+$$
+
+## Soma de Quadrados Entre (SSB)
+
+<div style="font-size: 60%;">
+
+A fórmula para calcular a soma de quadrados entre ($(SS_{B}$)) é:
+
+$$
+SS_{B} = \sum_{j=1}^{m} n_j (\bar{Y}_j - \bar{Y})^2
+$$
+
+- Médias dos grupos e geral:
+  - $(\bar{Y}_A = \frac{3+2+1}{3} = 2$)
+  - $(\bar{Y}_B = \frac{5+3+4}{3} = 4$)
+  - $(\bar{Y}_C = \frac{5+6+7}{3} = 6$)
+  - $(\bar{Y} = 4$).
+
+Agora, calculamos cada termo:
+
+$$
+SS_{B} = 3 \cdot (2 - 4)^2 + 3 \cdot (4 - 4)^2 + 3 \cdot (6 - 4)^2
+$$
+
+$$
+SS_{B} = 3 \cdot 4 + 3 \cdot 0 + 3 \cdot 4 = 12 + 0 + 12 = 24
+$$
+</div>
+
+## Graus de Liberdade do $(SS_{B}$)
+
+<div style="font-size: 70%;">
+
+Os graus de liberdade do $(SS_{B}$) são calculados como:
+
+$$
+df_{B} = m - 1
+$$
+
+### Substituindo os valores:
+- $(m = 3$) (número de grupos: A, B e C).
+
+$$
+df_{B} = 3 - 1 = 2
+$$
+
+</div>
+
+## Soma de Quadrados Dentro $(SS_W)$
+
+<div style="font-size: 70%;">
+
+A fórmula para calcular a soma de quadrados dentro ($(SS_W)$) é:
+
+$$
+SS_W = \sum_{j=1}^{m} \sum_{i=1}^{n_j} (Y_{ij} - \bar{Y}_j)^2
+$$
+
+- Médias dos grupos:
+  - $(\bar{Y}_A = 2$), $(\bar{Y}_B = 4$), $(\bar{Y}_C = 6$).
+
+Agora, calculamos os desvios ao quadrado dentro de cada grupo:
+
+**Grupo A:**$(3-2)^2 + (2-2)^2 + (1-2)^2 = 1 + 0 + 1 = 2$
+
+**Grupo B:**$(5-4)^2 + (3-4)^2 + (4-4)^2 = 1 + 1 + 0 = 2$
+
+**Grupo C:**$(5-6)^2 + (6-6)^2 + (7-6)^2 = 1 + 0 + 1 = 2$
+
+Somando todos os desvios ao quadrado:
+
+$$
+SS_W = 2 + 2 + 2 = 6
+$$
+
+</div>
+
+## Graus de Liberdade do $SS_W$
+
+<div style="font-size: 70%;">
+
+Os graus de liberdade do $SS_W$ são calculados como:
+
+$$
+df_W = n - m
+$$
+
+### Substituindo os valores:
+- $n = 9$ (número total de observações).
+- $m = 3$ (número de grupos: A, B e C).
+
+$$
+df_W = 9 - 3 = 6
+$$
+
+</div>
+
+## Resumo sobre as Medidas de Variância
+
+<div style="font-size: 80%;">
+
+- O $SST$ representa o total de informação presente nos dados.
+- Ele é decomposto em:
+  - $SSB$ (variabilidade entre os grupos), que reflete as diferenças nas médias.
+  - $SSW$ (variabilidade dentro dos grupos), que reflete as informações particulares e residuais.
+- A eficácia do modelo depende de o $SSE$ capturar uma proporção maior da variância total.
+
+</div>
+
+## Tabela da ANOVA 
+
+<div style="font-size: 50%;">
+
+| Fonte de Variação | Soma de Quadrados         | Graus de Liberdade | Quadrado Médio                | Estatística F       |
+|-------------------|---------------------------|--------------------|------------------------------|---------------------|
+| Entre Grupos      | $SS_B = \sum_{j=1}^{m} n_j (\bar{Y}_j - \bar{Y})^2$ | $df_B = m - 1$      | $MS_B = \frac{SS_B}{df_B}$   | $F = \frac{MS_E}{MS_W}$ |
+| Dentro dos Grupos | $SS_W = \sum_{j=1}^{m} \sum_{i=1}^{n_j} (Y_{ij} - \bar{Y}_j)^2$ | $df_W = n - m$      | $MS_W = \frac{SS_W}{df_W}$   | -                   |
+| Total             | $SS_T = \sum_{i=1}^{n} (Y_i - \bar{Y})^2$         | $df_T = n - 1$      | -                            | -                   |
+
+</div>
+
+## Cálculo de ($MS_B$) e ($MS_W$)
+
+<div style="font-size: 70%;">
+
+### Fórmulas:
+- Quadrado Médio Entre:
+  $$
+  MS_B = \frac{SS_B}{df_B}
+  $$
+- Quadrado Médio Dentro:
+  $$
+  MS_W = \frac{SS_W}{df_W}
+  $$
+
+### Substituindo os Valores:
+Para ($MS_B$): $MS_B = \frac{SS_B}{df_B} = \frac{24}{2} = 12$
+
+Para ($MS_W$):
+  $MS_W = \frac{SS_W}{df_W} = \frac{6}{6} = 1$
+
+</div>
+
+## Distribuição F
+
+-   Utilizamos a Dist. F pois ela conecta diretamente ao objetivo da ANOVA, de comparar variâncias
+
+-   Como foco é dado em variâncias e não em médias, a F se sobressai em relação a Dist. Z
+
+-   Também podemos reportar o F-crítico, sendo uma medida limite para um dado nível de significância (p-valor). é a fronteira de rejeição de $H_0$
+
+## Tabela ANOVA
+
+<div style="font-size: 50%;">
+
+| Fonte de Variação | Soma de Quadrados         | Graus de Liberdade | Quadrado Médio                | Estatística \( F \)       |
+|-------------------|---------------------------|--------------------|------------------------------|---------------------------|
+| Entre Grupos      | $SS_B = 24$              | $df_B = 2$         | $MS_B = \frac{24}{2} = 12$   | $F = \frac{12}{1} = 12$   |
+| Dentro dos Grupos | $SS_W = 6$               | $df_W = 6$         | $MS_W = \frac{6}{6} = 1$     | -                         |
+| Total             | $SS_T = 30$             | $df_T = 8$         | -                            | -                         |
+
+### Cálculo da Estatística (F)
+$$
+F = \frac{MS_B}{MS_W} = \frac{12}{1} = 12
+$$
+
+### Obtendo o p-valor:
+- Para F = 12, com ($df_B = 2$) e ($df_W = 6$), o p-valor é obtido utilizando software ou tabelas F.
+- Resultado: p < 0.01
+
+### Conclusão:
+- Como ($F = 12 > F_{crit} = 5.14$) (para ($\alpha = 0.05$)), rejeitamos $H_0$.
+- O p-valor pequeno indica que as diferenças entre as médias dos grupos são estatisticamente significativas.
+
+</div>
+
+## Gráfico com barras de erro
+```{r}
+library(ggplot2)
+
+# Dados
+dados <- data.frame(
+  Grupo = c("A", "B", "C"),
+  Media = c(2, 4, 6), # Médias dos grupos
+  Erro = c(1, 1, 1)   # Erro padrão estimado
+)
+
+# Gráfico
+ggplot(dados, aes(x = Grupo, y = Media)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_errorbar(aes(ymin = Media - Erro, ymax = Media + Erro), width = 0.2) +
+  labs(title = "Médias dos Grupos com Erro Padrão", y = "Média", x = "Grupo") +
+  theme_minimal()
+```
+
+## Mas e a magnitude?
+
+-   O efeito da ANOVA vem da decomposição da variância total pelos seus componentes explicados
+
+-   Queremos medir o quão relevante é a proporção de $SS_B$ em relação ao $SS_W$
+
+-   Há várias medidas de efeito, como $eta^2$, $\omega^2$ e o $R^2$
+
+## Efeito do teste
+
+<div style="font-size: 60%;">
+
+### $(\eta^2$) Eta ao Quadrado
+$$
+\eta^2 = \frac{SS_B}{SS_T}
+$$
+- Mede a proporção da variância explicada pelos grupos.
+
+### $(\omega^2)$ Omega ao Quadrado
+$$
+\omega^2 = \frac{SS_B - (df_B \cdot MS_W)}{SS_T + MS_W}
+$$
+- Ajusta o tamanho do efeito para penalizar amostras pequenas.
+
+### 3. $(f)$ de Cohen
+$$
+f = \sqrt{\frac{\eta^2}{1 - \eta^2}}
+$$
+- Compara o tamanho do efeito em razão:
+  - Pequeno: (f = 0.1), Médio: (f = 0.25), Grande: (f = 0.4).
+
+</div>
+
+## Resultado Final da ANOVA
+
+<div style="font-size: 70%;">
+
+- **Hipótese Nula ($H_0$):**
+  - As médias dos grupos são iguais ($\mu_A = \mu_B = \mu_C$).
+- **Hipótese Alternativa ($H_a$):**
+  - Pelo menos uma média é diferente
+
+- Estatística $F$ = 12
+- Graus de liberdade: $df_B = 2$, $df_W = 6$.
+- $p$-valor < 0.01 e $F = 12 > F_{crit} = 5.14$
+
+- Cálculo da Magnitude ($\omega^2$)
+
+- $SS_B = 24$, $df_B = 2$, $MS_W = 1$, $SS_T = 30$.
+
+$$
+\omega^2 = \frac{24 - (2 \cdot 1)}{30 + 1} = \frac{24 - 2}{31} = \frac{22}{31} \approx 0.71
+$$
+-   Conclusão: $\omega^2 = 0.71$: Indica que **71% da variância total** é explicada pelas diferenças entre os grupos.
+
+</div>
+
+## ANOVA no R
+
+### Criando os dados
+```{r, echo=TRUE, eval=TRUE}
+dados <- data.frame(
+  Grupo = rep(c("A", "B", "C"), each = 3),
+  Valores = c(3, 2, 1, 5, 3, 4, 5, 6, 7))
+```
+
+## ANOVA no R
+```{r, echo=TRUE, eval=TRUE}
+library(effectsize)
+# Rodando a ANOVA
+anova_result <- aov(Valores ~ Grupo, data = dados)
+
+# Resumo da ANOVA
+summary(anova_result)
+
+# Calculando omega squared
+omega_squared <- omega_squared(anova_result)
+omega_squared
+```
+
+## ANOVA no R
+
+```{r, echo=TRUE}
+
+# Resíduos do modelo
+residuos <- residuals(anova_result)
+
+# QQ-plot
+qqnorm(residuos, main = "QQ-Plot dos Resíduos")
+qqline(residuos, col = "red", lwd = 2)
+
+```
+
+## ANOVA no R
+
+```{r, echo=TRUE}
+# Com poucos dados, fica difícil obter normalidade. 
+# O teste não-paramétrico alternativo a ANOVA pode ser uma opção
+
+kruskal.test(Valores ~ Grupo, data = dados)
+```
+
+## ANOVA no R
+```{r}
+# Se mesmo com a normalidade, quisermos insistir, vamos verificar a homoscedasticidade e vamos fazer o cálculo de amostra
+
+library(car) # Teste de Levene
+library(pwr) # Cálculo de amostra
+
+levene <- leveneTest(Valores ~ Grupo, data = dados)
+levene
+
+pwr.anova.test(k = 3, f = .25, sig.level = 0.05, power = 0.80)
+pwr.anova.test(k = 3, f = .25, sig.level = 0.05, n = 3)
+```
+
+## ANOVA no R
+
+```{r, echo=TRUE, eval=FALSE}
+# Vamos também verificar outliers, com um box-plot
+
+library(dplyr)
+limites <- dados %>%
+  group_by(Grupo) %>%
+  summarise(
+    Q1 = quantile(Valores, 0.25),
+    Q3 = quantile(Valores, 0.75),
+    IQR = Q3 - Q1,
+    LimiteInferior = Q1 - 1.5 * IQR,
+    LimiteSuperior = Q3 + 1.5 * IQR
+  )
+
+# Gerando o boxplot com os limites
+library(ggplot2)
+ggplot(dados, aes(x = Grupo, y = Valores)) +
+  geom_boxplot(outlier.shape = NA, fill = "skyblue", color = "black") + # Boxplot sem outliers
+  geom_jitter(width = 0.2, aes(color = "Observações")) +               # Pontos reais
+  geom_hline(data = limites, aes(yintercept = LimiteInferior, color = "Limite Inferior"), linetype = "dashed") +
+  geom_hline(data = limites, aes(yintercept = LimiteSuperior, color = "Limite Superior"), linetype = "dashed") +
+  labs(title = "Boxplot com Limites de Outliers",
+       x = "Grupo",
+       y = "Valores",
+       color = "Legenda") +
+  theme_minimal()
+
+```
+
+## ANOVA no R
+
+```{r, echo=FALSE}
+library(dplyr)
+limites <- dados %>%
+  group_by(Grupo) %>%
+  summarise(
+    Q1 = quantile(Valores, 0.25),
+    Q3 = quantile(Valores, 0.75),
+    IQR = Q3 - Q1,
+    LimiteInferior = Q1 - 1.5 * IQR,
+    LimiteSuperior = Q3 + 1.5 * IQR
+  )
+limites
+# Gerando o boxplot com os limites
+library(ggplot2)
+ggplot(dados, aes(x = Grupo, y = Valores)) +
+  geom_boxplot(outlier.shape = NA, fill = "skyblue", color = "black") + # Boxplot sem outliers
+  geom_jitter(width = 0.2, aes(color = "Observações")) +               # Pontos reais
+  geom_hline(data = limites, aes(yintercept = LimiteInferior, color = "Limite Inferior"), linetype = "dashed") +
+  geom_hline(data = limites, aes(yintercept = LimiteSuperior, color = "Limite Superior"), linetype = "dashed") +
+  labs(title = "Boxplot com Limites de Outliers",
+       x = "Grupo",
+       y = "Valores",
+       color = "Legenda") +
+  theme_minimal()
+```
+
+## Por que invalidar este teste ANOVA?
+
+<div style="font-size: 70%;">
+
+- **Normalidade**: O QQ-plot indica desvios significativos, sugerindo resíduos não normais; Amostra pequena (n < 30) não garantem normalidade.
+
+- **Homogeneidade de Variâncias**: Teste de Levene: (p = 1.0) sugere variâncias homogêneas, mas é pouco confiável com (n = 3) por grupo.
+
+- **Amostra mínima necessária**: A amostra mínima de cada grupo deveria ser de 53, para captar um efeito médio de 25% caso ele exista. A amostra obtida foi n = 9, tendo um poder de 0,07 < 0,80, sendo 80% o mínimo e 95% o ideal.
+
+-   *Conclusão*: Mesmo não tendo problemas de outliers nem dados ausentes, a ANOVA é invalida devido a violações graves de pressupostos, com altas chances de causar erros do Tipo I e Tipo II. É mais seguro utilizar o teste não paramétrico de Kruskal-Wallis, neste caso.
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
