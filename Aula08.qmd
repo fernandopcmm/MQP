@@ -371,7 +371,7 @@ durbinWatsonTest(modelo)
   vif(modelo)
 ```
 
--   A violação deste pressuposto acontece quando VIF > 5
+-   A violação deste pressuposto acontece quando VIF > 5.
 
 ## Resultados descritivos e exploratórios
 
