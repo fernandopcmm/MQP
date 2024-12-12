@@ -1,0 +1,401 @@
+---
+title: "Aula 08 - Regressão"
+author: "Fernando Lhamas"
+format: 
+  revealjs:
+    theme: "solarized"
+    slide-number: true
+    transition: "slide"
+    incremental: true
+    css: "style.css"
+    self-contained: false
+---
+
+## O que é regressão?
+
+-   A regressão é um método estatístico usado como modelo para relações entre variáveis, em que temos 1 variável dependente e uma ou mais variáveis independentes
+-   Um modelo de regressão é utilizado para prever valores da variável resposta com base nos valores das preditoras
+-   É uma das técnicas mais utilizadas para tomada de decisão e encontra aplicações diversas nas organizações
+
+## Exemplos
+
+- **Marketing**:
+  - Previsão de vendas com base no investimento em publicidade e promoções.
+  - Identificação de fatores que influenciam a satisfação do cliente.
+
+- **Produção**:
+  - Análise da relação entre número de horas trabalhadas e produtividade.
+  - Modelagem do impacto de diferentes fornecedores na qualidade do produto final.
+
+## Exemplos
+
+- **Políticas Públicas**:
+  - Avaliação do impacto de programas sociais na renda das famílias.
+  - Estudo da relação entre investimentos em saúde e indicadores de mortalidade infantil.
+
+- **Gestão de Projetos Sociais**:
+  - Determinação de fatores que aumentam o engajamento de voluntários.
+  - Avaliação do impacto de campanhas de doação em arrecadações.
+
+## Exemplos
+
+- **Finanças**:
+  - Previsão de preços de ações com base em indicadores econômicos.
+  - Análise de risco de crédito utilizando variáveis de histórico financeiro.
+
+- **Tecnologia**:
+  - Estudo da relação entre investimento em P&D e patentes registradas.
+  - Previsão de falhas de sistemas com base em logs de erro.
+  
+## Regressão simples x múltipla
+
+### Regressão Simples
+- Um único preditor $(X)$ influencia a variável dependente $(Y)$
+- Modelo: $( Y = \beta_0 + \beta_1 X + \epsilon)$
+
+### Regressão Múltipla
+- Dois ou mais preditores $(X_1, X_2, ..., X_k)$ influenciam a variável dependente $(Y)$
+- Modelo: $( Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k + \epsilon)$
+
+
+## Tipos de Regressão
+
+- **Linear Simples e Múltipla**: Modelos lineares entre variáveis.
+- **Logística**: Para variáveis dependentes binárias, ordinais ou multinomiais.
+- **Ridge e Lasso**: Regressões com penalizações para reduzir multicolinearidade e ajustar modelos com muitas variáveis.
+- **Regressão Polinomial**: Para relações não lineares.
+- **Regressão Quantílica**: Explora diferentes quantis da variável dependente.
+
+## Tipos de Regressão
+
+- **Regressão de Poisson**: Para variáveis dependentes que são contagens.
+- **Regressão de Sobrevivência**: Para modelar tempo até um evento (ex: falência de empresas)
+- **Regressão multinível**: Considera estrutura hierárquica no modelo (ex: alunos estão agrupados em cursos, escolas e municípios)
+
+## Método dos Mínimos Quadrados
+
+- Encontrar os coeficientes $\beta_0, \beta_1, \dots \beta_k$ que minimizem a soma dos quadrados dos resíduos $\epsilon$.
+
+- Resíduo: Diferença entre o valor observado $Y_i$ e o valor predito $\hat{Y}_i$
+  $\epsilon_i = Y_i - \hat{Y}_i$
+
+- Soma dos quadrados dos resíduos:
+  $SS_{res} = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2$
+
+- Resolver as equações normais:
+  $\mathbf{(X'X)\beta = X'Y}$
+  - $\mathbf{X}$: Matriz das variáveis independentes.
+  - $\mathbf{Y}$: Vetor da variável dependente.
+  - $\mathbf{\beta}$: Vetor dos coeficientes estimados.
+
+## Intuição Simples
+
+- Ajustamos uma linha reta (ou um plano no caso múltiplo) que "melhor" representa os dados.
+- A solução minimiza a distância vertical total entre os pontos observados e a linha/polígono ajustado.
+
+## Representação
+```{r, echo=FALSE, warning=FALSE}
+# Carregar pacotes necessários
+library(ggplot2)
+
+# Criar um conjunto de dados exemplo
+data <- data.frame(
+  x = c(1, 2, 3, 4, 5),
+  y = c(2, 4, 5, 4, 5)
+)
+
+# Ajustar um modelo de regressão
+modelo <- lm(y ~ x, data = data)
+data$y_pred <- predict(modelo)
+data$residual <- data$y - data$y_pred
+
+# Criar o gráfico
+ggplot(data, aes(x = x, y = y)) +
+  geom_point(size = 3, color = "blue") +
+  geom_line(aes(y = y_pred), color = "red") +
+  geom_segment(aes(xend = x, yend = y_pred), color = "green", size = 1) +
+  labs(
+    title = "Regressão Linear: Pontos e Resíduos",
+    x = "Variável Independente",
+    y = "Variável Dependente"
+  ) +
+  theme_minimal()
+```
+
+## Estimadores
+
+- Fórmulas para o modelo de regressão simples $Y = \alpha + \beta X + \epsilon$:
+
+  - Estimador de $\beta$:
+    $$ \beta = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2} $$
+
+  - Estimador de $\alpha$:
+  
+    $$ \alpha = \bar{Y} - \beta \bar{X} $$
+
+## Intuição Simples
+
+  - Onde:
+    - $\bar{X}$: Média da variável independente.
+    - $\bar{Y}$: Média da variável dependente.
+
+- $\beta$ mede o quanto $Y$ muda quando $X$ aumenta em uma unidade.
+- $\alpha$ é o valor esperado de $Y$ quando $X = 0$.
+
+
+## Tabela ANOVA
+
+<div style="font-size: 50%;">
+
+| Fonte de Variação | Soma de Quadrados         | Graus de Liberdade | Quadrado Médio                | Estatística F       |
+|-------------------|---------------------------|--------------------|------------------------------|---------------------|
+| Entre Grupos      | $SS_B = \sum_{j=1}^{m} n_j (\bar{Y}_j - \bar{Y})^2$ | $df_B = m - 1$      | $MS_B = \frac{SS_B}{df_B}$   | $F = \frac{MS_E}{MS_W}$ |
+| Dentro dos Grupos | $SS_W = \sum_{j=1}^{m} \sum_{i=1}^{n_j} (Y_{ij} - \bar{Y}_j)^2$ | $df_W = n - m$      | $MS_W = \frac{SS_W}{df_W}$   | -                   |
+| Total             | $SS_T = \sum_{i=1}^{n} (Y_i - \bar{Y})^2$         | $df_T = n - 1$      | -                            | -                   |
+
+</div>
+
+-   A variabilidade total ($SS_T$) se divide na variabilidade entre variáveis ($SS_B$ é $SSReg$) e na variabilidade dentro ($SS_W$ é $SSRes$)
+-   $SSReg$ mede o quanto o modelo explica e $SSRes$ refere-se a variação não explicada pelo modelo
+
+## Hipóteses
+
+-    A ANOVA do modelo de regressão testa hipótese nula
+-   $H_0: \beta_1 = \beta_2 = \beta_3 = ... \beta_k = 0$
+-   $H_1$: Pelo menos 1 $\beta$ é diferente de 0
+-    A estatística F é utilizada para verificar o nível descritivo (p-valor)
+
+## Efeito do modelo de regressão
+
+-   O efeito do modelo é medido pelo coeficiente de determinação $R^2$
+-   Cálculo do R² e R² Ajustado
+
+- **Coeficiente de Determinação:**
+  - Mede a proporção da variabilidade da variável dependente que é explicada pelo modelo.
+  
+  $$R^2 = \frac{SS_{Reg}}{SS_{Total}} = 1 - \frac{SS_{Res}}{SS_{Total}}$$
+
+## Efeito do modelo de regressão
+
+- **R² Ajustado:**
+  - Ajusta o R² para o número de preditores no modelo e o tamanho da amostra.
+  
+  $$R^2_{adj} = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}$$
+-   Perceba que o ajustado utilizado o quadrado médio da regressão e dos erros, considerando os graus de liberdade do modelo
+-   Utilize o $R^2$ ajustado. Ele é mais robusto por penalizar a taxa de variância explicada pela complexidade do modelo
+
+## Exemplo no R com Base "Prestige"
+
+Utilizaremos a base de dados `Prestige` do pacote `carData`, que contém as seguintes variáveis:
+
+- **education**: anos médios de educação para a ocupação.
+- **income**: renda média em dólares.
+- **prestige**: pontuação média de prestígio atribuída à ocupação.
+- **census**: código do censo para a ocupação.
+- **type**: tipo de ocupação (profissional, operária, etc.).
+
+## Dados ausentes
+
+-   **Verificação de Dados Ausentes:** Identificar valores ausentes na base de dados e ajustar conforme necessário.
+
+```{r, echo=TRUE}
+library(dplyr)
+library(tidyr)
+library(carData)
+
+  # Verificar dados ausentes
+  sum(is.na(Prestige))
+
+  # Remover linhas com dados ausentes
+  Prestige <- Prestige %>% drop_na()
+```
+
+## Dados extremos
+
+-   **Identificação de Outliers**: Detectar valores extremos usando box-plot e a regra de 3 desvios-padrão
+
+```{r, echo=TRUE, eval=FALSE}
+# Identificar outliers com box-plot
+  library(ggplot2)
+  ggplot(Prestige, aes(x = 1, y = income)) +
+    geom_boxplot() +
+    labs(title = "Boxplot para Identificação de Outliers",
+         x = "",
+         y = "Renda Média")
+
+  # Remover outliers usando 3 desvios-padrão
+  Prestige <- Prestige %>%
+    filter(abs(scale(income)) <= 3, abs(scale(education)) <= 3, abs(scale(prestige)) <= 3)
+  
+# Criar base com variáveis padronizadas
+  Prestige2 <- Prestige %>%
+    mutate(across(c(income, education, prestige), ~ scale(.) %>% as.vector(), .names = "Z{col}"))
+```
+
+## Dados extremos
+
+```{r }
+# Identificar outliers com box-plot
+  library(ggplot2)
+  ggplot(Prestige, aes(x = 1, y = income)) +
+    geom_boxplot() +
+    labs(title = "Boxplot para Identificação de Outliers",
+         x = "",
+         y = "Renda Média")
+
+# Remover outliers usando 3 desvios-padrão
+  Prestige2 <- Prestige %>%
+    filter(abs(scale(income)) <= 3, abs(scale(education)) <= 3, abs(scale(prestige)) <= 3)
+```
+
+## Cálculo de amostra com pwr
+
+-   Teste a Priori e Pós-Hoc: Calcular o tamanho de amostra necessário (a priori) e o poder estatístico (pós-hoc).
+
+```{r}
+library(pwr)
+# Teste a priori para detectar tamanho de amostra necessário
+  pwr.f2.test(u = 2, v = NULL, f2 = 0.15, sig.level = 0.05, power = 0.80)
+# Pós-hoc com amostra real
+  n <- nrow(Prestige2)
+  pwr.f2.test(u = 2, v = n - 3, f2 = 0.15, sig.level = 0.05)
+```
+
+
+## Pressupostos da Regressão
+
+-   **Linearidade**: O relacionamento entre a variável dependente e as variáveis independentes deve ser linear.
+```{r, echo=TRUE, warning=FALSE, eval=FALSE}
+library(ggplot2)
+library(dplyr)
+
+  # Carregar a base de dados
+  data("Prestige", package = "carData")
+
+  # Gráfico de dispersão para income e prestige
+  ggplot(Prestige, aes(x = income, y = prestige)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, color = "red") +
+    labs(title = "Linearidade entre Renda e Prestígio",
+         x = "Renda Média",
+         y = "Prestígio")
+```
+
+## Pressuposto da regressão 
+
+```{r, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+  # Carregar a base de dados
+  data("Prestige", package = "carData")
+
+  # Gráfico de dispersão para income e prestige
+  ggplot(Prestige, aes(x = income, y = prestige)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, color = "red") +
+    labs(title = "Linearidade entre Renda e Prestígio",
+         x = "Renda Média",
+         y = "Prestígio")
+```
+
+## Pressupostos da regressão
+
+-   **Independência dos Erros**: Os resíduos devem ser independentes entre si.
+  
+```{r, echo=TRUE}
+# Ajustar modelo
+  modelo <- lm(prestige ~ income + education, data = Prestige)
+  
+# Teste de Durbin-Watson
+library(car)
+durbinWatsonTest(modelo)
+```
+
+-   Com resultados próximos de 2 da estatística do teste (D-W), podemos considerar a ausência de autocorrelação serial
+
+## Pressupostos da regressão
+
+-   **Homoscedasticidade**: A variância dos resíduos deve ser constante.
+```{r, echo=TRUE, eval=FALSE}
+# Gráfico de resíduos vs valores ajustados
+  ggplot(data.frame(residuals = residuals(modelo), fitted = fitted(modelo)),
+         aes(x = fitted, y = residuals)) +
+    geom_point() +
+    geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+    labs(title = "Homoscedasticidade: Resíduos vs Valores Ajustados",
+         x = "Valores Ajustados",
+         y = "Resíduos")
+```
+
+## Pressupostos da regressão
+
+```{r, echo=FALSE}
+# Gráfico de resíduos vs valores ajustados
+  ggplot(data.frame(residuals = residuals(modelo), fitted = fitted(modelo)),
+         aes(x = fitted, y = residuals)) +
+    geom_point() +
+    geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+    labs(title = "Homoscedasticidade: Resíduos vs Valores Ajustados",
+         x = "Valores Ajustados",
+         y = "Resíduos")
+```
+
+## Pressupostos da regressão
+
+-   **Normalidade dos Resíduos**: Os resíduos devem seguir uma distribuição normal.
+```{r, echo=TRUE, eval=FALSE}
+# Gráfico Q-Q
+  ggplot(data.frame(residuals = residuals(modelo)), aes(sample = residuals)) +
+    stat_qq() +
+    stat_qq_line() +
+    labs(title = "Normalidade dos Resíduos")
+```
+
+## Pressupostos da regressão
+```{r, echo=FALSE}
+# Gráfico Q-Q
+  ggplot(data.frame(residuals = residuals(modelo)), aes(sample = residuals)) +
+    stat_qq() +
+    stat_qq_line() +
+    labs(title = "Normalidade dos Resíduos")
+```
+
+## Pressupostos da regressão
+
+-   Ausência de Multicolinearidade: As variáveis independentes não devem ser altamente correlacionadas.
+
+```{r, echo=TRUE}
+# Fator de Inflação da Variância (VIF)
+  library(car)
+  vif(modelo)
+```
+
+-   A violação deste pressuposto acontece quando VIF > 5
+
+## Resultados descritivos e exploratórios
+
+```{r, echo=TRUE}
+summary(carData::Prestige[ ,1:4])
+head(carData::Prestige, 8)
+```
+
+## Resultados descritivos e exploratórios
+
+```{r, echo=TRUE}
+library(corrplot)
+corr <- Prestige %>%
+  select("education", "income", "prestige")
+C = cor(corr)
+corrplot(C, method = 'number')
+```
+
+  
+## Resultados do modelo
+
+```{r, echo=TRUE}
+modelo <- lm(prestige ~ income + education, data = Prestige)
+summary(modelo)
+```
+
+
